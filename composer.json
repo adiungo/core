@@ -24,5 +24,7 @@
         "source": "https://github.com/adiungo/core/releases",
         "chat": "https://matrix.to/#/#project-adiungo:matrix.org"
     },
-    "require": {}
+    "require-dev": {
+        "phpstan/phpstan": "^1.9"
+    }
 }
