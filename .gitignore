@@ -142,3 +142,6 @@ fabric.properties
 
 ### Composer ###
 vendor
+
+### Caches ###
+*.cache
