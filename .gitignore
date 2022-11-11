@@ -140,4 +140,5 @@ fabric.properties
 .history
 .ionide
 
-# End of https://www.toptal.com/developers/gitignore/api/phpstorm,visualstudiocode,netbeans
+### Composer ###
+vendor
