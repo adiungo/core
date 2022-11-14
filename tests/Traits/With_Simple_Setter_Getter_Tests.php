@@ -8,7 +8,7 @@ use Generator;
 trait With_Simple_Setter_Getter_Tests
 {
 
-    protected $instance;
+    protected object $instance;
 
     /**
      * @param string $setter
