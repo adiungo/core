@@ -10,6 +10,10 @@ use Adiungo\Core\Traits\With_Data_Source;
 use Generator;
 use Mockery;
 
+/**
+ * @covers \Adiungo\Core\Traits\With_Data_Source::set_data_source
+ * @covers \Adiungo\Core\Traits\With_Data_Source::get_data_source
+ */
 class With_Data_Source_Test extends Test_Case
 {
     use With_Simple_Setter_Getter_Tests;
