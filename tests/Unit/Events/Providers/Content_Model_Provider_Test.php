@@ -7,6 +7,7 @@ use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Events\Providers\Content_Model_Provider;
 use Adiungo\Core\Tests\Test_Case;
 use Mockery;
+use Mockery\MockInterface;
 
 class Content_Model_Provider_Test extends Test_Case
 {
@@ -18,6 +19,7 @@ class Content_Model_Provider_Test extends Test_Case
      */
     public function test_can_get_content_model(): void
     {
+        /** @var Content_Model&MockInterface $mock */
         $mock = Mockery::mock(Content_Model::class);
         $provider = new Content_Model_Provider($mock);
 
