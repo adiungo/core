@@ -11,7 +11,7 @@ trait With_Inaccessible_Methods
     /**
      * @throws ReflectionException
      */
-    protected function call_inaccessible_method($object, $method_name, ...$args)
+    protected function call_inaccessible_method(object $object, string $method_name, mixed ...$args): mixed
     {
         $reflection = new ReflectionClass(get_class($object));
         $method = $reflection->getMethod($method_name);
