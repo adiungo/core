@@ -145,3 +145,6 @@ vendor
 
 ### Caches ###
 *.cache
+
+### Spellcheck ###
+dictionary.dic
