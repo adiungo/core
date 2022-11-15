@@ -52,7 +52,7 @@ class Content_Model_Event_Test extends Test_Case
     }
 
     /**
-     * @covers \Adiungo\Core\Events\Content_Model_Event::attach
+     * @covers \Adiungo\Core\Events\Content_Model_Event::detach
      *
      * @return void
      * @throws Operation_Failed

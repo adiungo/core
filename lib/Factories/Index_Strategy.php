@@ -11,11 +11,6 @@ class Index_Strategy implements Has_Data_Source
 {
     use With_Data_Source;
 
-    public function __construct(protected string $model)
-    {
-
-    }
-
     /**
      * Saves the model.
      *
