@@ -3,10 +3,16 @@
 namespace Adiungo\Core\Tests\Unit\Factories;
 
 
+use Adiungo\Core\Abstracts\Content_Model;
+use Adiungo\Core\Factories\Index_Strategy;
 use Adiungo\Core\Tests\Test_Case;
+use Adiungo\Core\Tests\Traits\With_Inaccessible_Methods;
+use Mockery;
+use ReflectionException;
 
 class Index_Strategy_Test extends Test_Case
 {
+    use With_Inaccessible_Methods;
 
     /**
      * @covers \Adiungo\Core\Factories\Index_Strategy::index_data
@@ -15,7 +21,27 @@ class Index_Strategy_Test extends Test_Case
      */
     public function test_can_index_data(): void
     {
-        $this->markTestIncomplete();
+        $mock = Mockery::mock(Index_Strategy::class)->makePartial();
+
+        $mock->expects('get_data_source->get_data->each')->once()->with([$mock, 'save_item']);
+
+        $mock->index_data();
+    }
+
+    /**
+     * @covers \Adiungo\Core\Factories\Index_Strategy::save_item
+     *
+     * @return void
+     * @throws ReflectionException
+     */
+    public function test_can_save_item(): void
+    {
+        $mock = Mockery::mock(Index_Strategy::class)->makePartial();
+        $model = Mockery::mock(Content_Model::class);
+
+        $model->expects('save')->once();
+
+        $this->call_inaccessible_method($mock, 'save_item', $model);
     }
 
 }
