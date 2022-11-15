@@ -5,7 +5,7 @@ namespace Adiungo\Core\Traits;
 
 use Adiungo\Core\Factories\Index_Strategy;
 
-class With_Index_Strategy
+trait With_Index_Strategy
 {
     protected Index_Strategy $index_strategy;
 
