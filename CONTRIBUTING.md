@@ -143,7 +143,7 @@ to understand your suggestion and find related suggestions.
 
 Enhancement suggestions are tracked as [discussions](https://github.com/adiungo/core/discussions).
 
-- Set the category of your discuttion to **Ideas**.
+- Set the category of your discussion to **Ideas**.
 - Use a **clear and descriptive title** for the issue to identify the suggestion.
 - Provide a **step-by-step description of the suggested enhancement** in as many details as possible.
 - **Describe the current behavior** and **explain which behavior you expected to see instead** and why. At this point
