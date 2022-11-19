@@ -157,12 +157,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Underpin-WP/underpin.git",
-                "reference": "a580dfbca12c90a86d3c777daa1bee0e682c0232"
+                "reference": "d35b697c100084d398230fb212b422a5f152bdca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Underpin-WP/underpin/zipball/a580dfbca12c90a86d3c777daa1bee0e682c0232",
-                "reference": "a580dfbca12c90a86d3c777daa1bee0e682c0232",
+                "url": "https://api.github.com/repos/Underpin-WP/underpin/zipball/d35b697c100084d398230fb212b422a5f152bdca",
+                "reference": "d35b697c100084d398230fb212b422a5f152bdca",
                 "shasum": ""
             },
             "require": {
@@ -194,7 +194,7 @@
                 "issues": "https://github.com/Underpin-WP/underpin/issues",
                 "source": "https://github.com/Underpin-WP/underpin/tree/3.0.1"
             },
-            "time": "2022-11-18T23:27:14+00:00"
+            "time": "2022-11-19T02:51:37+00:00"
         }
     ],
     "packages-dev": [
