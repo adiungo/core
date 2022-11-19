@@ -2,6 +2,7 @@
 
 namespace Adiungo\Core\Interfaces;
 
+use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Collections\Content_Model_Collection;
 
 interface Data_Source
@@ -27,4 +28,12 @@ interface Data_Source
      * @return Data_Source
      */
     public function get_next(): Data_Source;
+
+    /**
+     * Gets a single content model from the data source.
+     *
+     * @param string|int $id
+     * @return Content_Model
+     */
+    public function get_item(string|int $id): Content_Model;
 }
