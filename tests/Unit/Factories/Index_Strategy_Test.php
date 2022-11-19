@@ -44,4 +44,20 @@ class Index_Strategy_Test extends Test_Case
         $this->call_inaccessible_method($mock, 'save_item', $model);
     }
 
+    /**
+     * @covers \Adiungo\Core\Factories\Index_Strategy::index_item
+     *
+     * @return void
+     */
+    public function test_can_index_item(): void
+    {
+        $id = 123;
+        $mock = Mockery::mock(Index_Strategy::class)->makePartial()->shouldAllowMockingProtectedMethods();
+        $model = Mockery::mock(Content_Model::class);
+
+        $mock->expects('get_data_source->get_item')->with($id)->once()->andReturn($model);
+        $mock->expects('save_item')->with($model);
+
+        $mock->index_item($id);
+    }
 }

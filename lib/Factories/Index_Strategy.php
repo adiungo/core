@@ -31,4 +31,15 @@ class Index_Strategy implements Has_Data_Source
     {
         $this->get_data_source()->get_data()->each([$this, 'save_item']);
     }
+
+    /**
+     * Saves a single index item.
+     *
+     * @param string|int $id
+     * @return void
+     */
+    public function index_item(string|int $id): void
+    {
+        $this->save_item($this->get_data_source()->get_item($id));
+    }
 }
