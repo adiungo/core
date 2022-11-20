@@ -59,7 +59,7 @@ trait With_Categories
         $all_ids = func_get_args();
 
         /** @var Category_Collection $result */
-        $result = $this->get_categories()->query()->not_in('id', ...$all_ids)->get_results();
+        $result = $this->get_categories()->query()->key_not_in(...$all_ids)->get_results();
 
         $this->categories = $result;
         return $this;
