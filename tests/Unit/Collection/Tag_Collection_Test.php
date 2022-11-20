@@ -23,7 +23,7 @@ class Tag_Collection_Test extends Test_Case
      */
     public function test_can_create_from_string(Tag_Collection $expected, string $content): void
     {
-        $this->assertEquals($expected, Tag_Collection::from_string($content));
+        $this->assertEquals($expected, (new Tag_Collection())->from_string($content));
     }
 
     /**
@@ -37,6 +37,15 @@ class Tag_Collection_Test extends Test_Case
                 ->add('project-adiungo', Tag::from_string('#ProjectAdiungo'))
                 ->add('hashtags', Tag::from_string('#hashtags')),
             'This is a piece of #content about #ProjectAdiungo that should contain three #hashtags'
+        ];
+
+
+        yield 'duplicate hashtags' => [
+            (new Tag_Collection())
+                ->add('content', Tag::from_string('#content'))
+                ->add('project-adiungo', Tag::from_string('#ProjectAdiungo'))
+                ->add('hashtags', Tag::from_string('#hashtags')),
+            'This is a piece of #content about #ProjectAdiungo that should contain three #hashtags, even though #content is added twice.'
         ];
     }
 }
