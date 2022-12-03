@@ -5,7 +5,7 @@ namespace Adiungo\Core\Tests\Unit;
 
 use Adiungo\Tests\Test_Case;
 
-class Valdiate_CI_Test extends Test_Case
+class Validate_CI_Test extends Test_Case
 {
 
     /**
