@@ -3,6 +3,7 @@
 namespace Adiungo\Core\Tests\Integration;
 
 use Adiungo\Core\Collections\Content_Model_Collection;
+use Adiungo\Core\Factories\Adapters\Data_Source_Adapter;
 use Adiungo\Core\Factories\Data_Sources\CSV;
 use Adiungo\Core\Tests\Integration\Mocks\Test_Model;
 use Adiungo\Tests\Test_Case;
@@ -19,11 +20,14 @@ class CSV_Data_Source_Test extends Test_Case
      */
     public function test_can_get_item(): void
     {
-        $item = (new CSV())
+        $adapter = (new Data_Source_Adapter())
             ->set_content_model_instance(Test_Model::class)
-            ->map_column('content', 'set_content', Types::String)
-            ->map_column('name', 'set_name', Types::String)
-            ->map_column('id', 'set_id', Types::Integer)
+            ->map_field('content', 'set_content', Types::String)
+            ->map_field('name', 'set_name', Types::String)
+            ->map_field('id', 'set_id', Types::Integer);
+
+        $item = (new CSV())
+            ->set_data_source_adapter($adapter)
             ->set_csv("id,content,name\r1,\"the content\",alex\r2,\"more content\",stephen")
             ->get_item(2);
 
@@ -42,11 +46,14 @@ class CSV_Data_Source_Test extends Test_Case
      */
     public function test_can_get_data(): void
     {
-        $item = (new CSV())
+        $adapter = (new Data_Source_Adapter())
             ->set_content_model_instance(Test_Model::class)
-            ->map_column('content', 'set_content', Types::String)
-            ->map_column('name', 'set_name', Types::String)
-            ->map_column('id', 'set_id', Types::Integer)
+            ->map_field('content', 'set_content', Types::String)
+            ->map_field('name', 'set_name', Types::String)
+            ->map_field('id', 'set_id', Types::Integer);
+
+        $item = (new CSV())
+            ->set_data_source_adapter($adapter)
             ->set_offset(2)
             ->set_limit(2)
             ->set_csv("id,content,name\r1,\"the content\",alex\r2,\"more content\",stephen\r3,\"another content\",kate\r4,\"even more content\",kara")
@@ -72,11 +79,14 @@ class CSV_Data_Source_Test extends Test_Case
      */
     public function test_can_get_next(): void
     {
-        $item = (new CSV())
+        $adapter = (new Data_Source_Adapter())
             ->set_content_model_instance(Test_Model::class)
-            ->map_column('content', 'set_content', Types::String)
-            ->map_column('name', 'set_name', Types::String)
-            ->map_column('id', 'set_id', Types::Integer)
+            ->map_field('content', 'set_content', Types::String)
+            ->map_field('name', 'set_name', Types::String)
+            ->map_field('id', 'set_id', Types::Integer);
+
+        $item = (new CSV())
+            ->set_data_source_adapter($adapter)
             ->set_offset(1)
             ->set_limit(2)
             ->set_csv("id,content,name\r1,\"the content\",alex\r2,\"more content\",stephen\r3,\"another content\",kate\r4,\"even more content\",kara")
@@ -104,11 +114,14 @@ class CSV_Data_Source_Test extends Test_Case
      */
     public function test_can_loop(): void
     {
-        $item = (new CSV())
+        $adapter = (new Data_Source_Adapter())
             ->set_content_model_instance(Test_Model::class)
-            ->map_column('content', 'set_content', Types::String)
-            ->map_column('name', 'set_name', Types::String)
-            ->map_column('id', 'set_id', Types::Integer)
+            ->map_field('content', 'set_content', Types::String)
+            ->map_field('name', 'set_name', Types::String)
+            ->map_field('id', 'set_id', Types::Integer);
+
+        $item = (new CSV())
+            ->set_data_source_adapter($adapter)
             ->set_offset(1)
             ->set_limit(1)
             ->set_csv("id,content,name\r1,\"the content\",alex\r2,\"more content\",stephen\r3,\"another content\",kate\r4,\"even more content\",kara");
