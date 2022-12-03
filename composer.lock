@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bb87da78a3e468fc5f0a71e4e36def76",
+    "content-hash": "96c68d0b575bf97dc8291f1f2500c8c5",
     "packages": [
         {
             "name": "composer/installers",
@@ -198,6 +198,61 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "adiungo/tests",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/adiungo/tests.git",
+                "reference": "f6485ccb497b2291ff33e8501070dd7839417b10"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/adiungo/tests/zipball/f6485ccb497b2291ff33e8501070dd7839417b10",
+                "reference": "f6485ccb497b2291ff33e8501070dd7839417b10",
+                "shasum": ""
+            },
+            "require": {
+                "friendsofphp/php-cs-fixer": "^3.13",
+                "mockery/mockery": "^1.5",
+                "phpstan/extension-installer": "^1.2",
+                "phpstan/phpstan": "^1.9",
+                "phpstan/phpstan-mockery": "^1.1",
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Adiungo\\Tests\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alex Standiford",
+                    "email": "alex@standiford.us"
+                }
+            ],
+            "description": "Testing library for adiungo",
+            "homepage": "https://github.com/adiungo/tests",
+            "keywords": [
+                "aggregate",
+                "archive",
+                "blogging",
+                "index",
+                "social media"
+            ],
+            "support": {
+                "chat": "https://matrix.to/#/#project-adiungo:matrix.org",
+                "forum": "https://github.com/adiungo/tests/discussions",
+                "issues": "https://github.com/adiungo/tests/issues",
+                "source": "https://github.com/adiungo/tests/releases"
+            },
+            "time": "2022-11-24T14:05:16+00:00"
+        },
         {
             "name": "composer/pcre",
             "version": "3.0.2",
