@@ -5,8 +5,8 @@ namespace Adiungo\Core\Tests\Unit\Factories;
 
 use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Factories\Index_Strategy;
-use Adiungo\Core\Tests\Test_Case;
-use Adiungo\Core\Tests\Traits\With_Inaccessible_Methods;
+use Adiungo\Tests\Test_Case;
+use Adiungo\Tests\Traits\With_Inaccessible_Methods;
 use Mockery;
 use ReflectionException;
 

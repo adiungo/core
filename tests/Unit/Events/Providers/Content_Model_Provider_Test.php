@@ -5,7 +5,7 @@ namespace Adiungo\Core\Tests\Unit\Events\Providers;
 
 use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Events\Providers\Content_Model_Provider;
-use Adiungo\Core\Tests\Test_Case;
+use Adiungo\Tests\Test_Case;
 use Mockery;
 use Mockery\MockInterface;
 

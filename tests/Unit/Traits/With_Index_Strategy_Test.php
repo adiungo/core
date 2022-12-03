@@ -4,9 +4,9 @@ namespace Adiungo\Core\Tests\Unit\Traits;
 
 
 use Adiungo\Core\Factories\Index_Strategy;
-use Adiungo\Core\Tests\Test_Case;
-use Adiungo\Core\Tests\Traits\With_Simple_Setter_Getter_Tests;
 use Adiungo\Core\Traits\With_Index_Strategy;
+use Adiungo\Tests\Test_Case;
+use Adiungo\Tests\Traits\With_Simple_Setter_Getter_Tests;
 use Generator;
 use Mockery;
 

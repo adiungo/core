@@ -5,7 +5,7 @@ namespace Adiungo\Core\Tests\Unit\Collection;
 
 use Adiungo\Core\Collections\Tag_Collection;
 use Adiungo\Core\Factories\Tag;
-use Adiungo\Core\Tests\Test_Case;
+use Adiungo\Tests\Test_Case;
 use Generator;
 use Underpin\Exceptions\Operation_Failed;
 

@@ -4,9 +4,9 @@ namespace Adiungo\Core\Tests\Unit\Traits;
 
 
 use Adiungo\Core\Abstracts\Content_Model;
-use Adiungo\Core\Tests\Test_Case;
-use Adiungo\Core\Tests\Traits\With_Simple_Setter_Getter_Tests;
 use Adiungo\Core\Traits\With_Content_Model_Instance;
+use Adiungo\Tests\Test_Case;
+use Adiungo\Tests\Traits\With_Simple_Setter_Getter_Tests;
 use Generator;
 use Mockery;
 
