@@ -4,7 +4,7 @@ namespace Adiungo\Core\Tests\Unit\Factories;
 
 
 use Adiungo\Core\Factories\Tag;
-use Adiungo\Core\Tests\Test_Case;
+use Adiungo\Tests\Test_Case;
 use Generator;
 use Underpin\Exceptions\Operation_Failed;
 

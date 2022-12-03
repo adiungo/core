@@ -5,7 +5,7 @@ namespace Adiungo\Core\Tests\Unit\Events\Providers;
 
 use Adiungo\Core\Events\Providers\Index_Strategy_Provider;
 use Adiungo\Core\Factories\Index_Strategy;
-use Adiungo\Core\Tests\Test_Case;
+use Adiungo\Tests\Test_Case;
 use Mockery;
 
 class Index_Strategy_Provider_Test extends Test_Case

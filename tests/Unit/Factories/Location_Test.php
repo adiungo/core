@@ -4,7 +4,7 @@ namespace Adiungo\Core\Tests\Unit\Factories;
 
 
 use Adiungo\Core\Factories\Location;
-use Adiungo\Core\Tests\Test_Case;
+use Adiungo\Tests\Test_Case;
 
 class Location_Test extends Test_Case
 {
