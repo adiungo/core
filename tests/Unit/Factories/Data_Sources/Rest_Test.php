@@ -48,7 +48,7 @@ class Rest_Test extends Test_Case
     /**
      * @covers       \Adiungo\Core\Factories\Data_Sources\Rest::has_more
      * @param bool $expected
-     * @param array $cache
+     * @param string[] $cache
      * @param bool $has_more
      * @return void
      * @throws ReflectionException
