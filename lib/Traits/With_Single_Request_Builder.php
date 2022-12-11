@@ -3,21 +3,22 @@
 namespace Adiungo\Core\Traits;
 
 
-use Adiungo\Core\Interfaces\Has_Paginated_Request;
+use Adiungo\Core\Abstracts\Int_Id_Based_Request_Builder;
+use Adiungo\Core\Abstracts\String_Id_Based_Request_Builder;
 
 trait With_Single_Request_Builder
 {
     /**
-     * @var Has_Paginated_Request
+     * @var Int_Id_Based_Request_Builder|String_Id_Based_Request_Builder
      */
-    protected Has_Paginated_Request $single_request_builder;
+    protected Int_Id_Based_Request_Builder|String_Id_Based_Request_Builder $single_request_builder;
 
     /**
      * Get the collection that this class can set.
      *
-     * @return Has_Paginated_Request
+     * @return Int_Id_Based_Request_Builder|String_Id_Based_Request_Builder
      */
-    public function get_single_request_builder(): Has_Paginated_Request
+    public function get_single_request_builder(): Int_Id_Based_Request_Builder|String_Id_Based_Request_Builder
     {
         return $this->single_request_builder;
     }
@@ -25,10 +26,10 @@ trait With_Single_Request_Builder
     /**
      * Sets the collection that this class can set.
      *
-     * @param Has_Paginated_Request $single_request_builder
+     * @param Int_Id_Based_Request_Builder|String_Id_Based_Request_Builder $single_request_builder
      * @return static
      */
-    public function set_single_request_builder(Has_Paginated_Request $single_request_builder): static
+    public function set_single_request_builder(Int_Id_Based_Request_Builder|String_Id_Based_Request_Builder $single_request_builder): static
     {
         $this->single_request_builder = $single_request_builder;
 

@@ -16,10 +16,16 @@ use Adiungo\Core\Traits\With_Content_Model_Instance;
 use Adiungo\Core\Traits\With_Data_Source_Adapter;
 use Adiungo\Core\Traits\With_Has_More_Strategy;
 use Adiungo\Core\Traits\With_Single_Request_Builder;
+use JsonException;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
+use Underpin\Exceptions\Operation_Failed;
 use Underpin\Factories\Request;
+use Underpin\Helpers\Array_Helper;
 use Underpin\Traits\With_Object_Cache;
 
 class Rest implements Data_Source, Has_Content_Model_Instance, Has_Data_Source_Adapter, Has_Has_More_Strategy, Has_Batch_Request_Builder, Has_Single_Request_Builder
@@ -49,15 +55,25 @@ class Rest implements Data_Source, Has_Content_Model_Instance, Has_Data_Source_A
         return clone $this;
     }
 
+    /**
+     * @param int|string $id
+     * @return Content_Model
+     * @throws TransportExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws Operation_Failed
+     * @throws JsonException
+     */
     public function get_item(int|string $id): Content_Model
     {
-        // TODO: Implement get_item() method.
-        return new class extends Content_Model {
-            public function get_id(): string|int|null
-            {
-                return null;
-            }
-        };
+        return $this->load_from_cache('get_item', function () use ($id) {
+            $instance = $this->get_single_request_builder()->set_id($id)->get_request();
+
+            $data = Array_Helper::wrap(json_decode($this->make_request($instance)->getContent(), true, 512, JSON_THROW_ON_ERROR));
+
+            return $this->get_data_source_adapter()->convert_to_model($data);
+        });
     }
 
     /**
