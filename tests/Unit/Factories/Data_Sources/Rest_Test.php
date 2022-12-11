@@ -4,11 +4,14 @@ namespace Adiungo\Core\Tests\Unit\Factories\Data_Sources;
 
 
 use Adiungo\Core\Abstracts\Content_Model;
+use Adiungo\Core\Abstracts\Has_More_Strategy;
 use Adiungo\Core\Abstracts\Int_Id_Based_Request_Builder;
+use Adiungo\Core\Collections\Content_Model_Collection;
 use Adiungo\Core\Factories\Data_Sources\Rest;
 use Adiungo\Core\Interfaces\Has_Paginated_Request;
 use Adiungo\Tests\Test_Case;
 use Adiungo\Tests\Traits\With_Inaccessible_Properties;
+use Generator;
 use JsonException;
 use Mockery;
 use ReflectionException;
@@ -43,12 +46,37 @@ class Rest_Test extends Test_Case
     }
 
     /**
-     * @covers \Adiungo\Core\Factories\Data_Sources\Rest::has_more
+     * @covers       \Adiungo\Core\Factories\Data_Sources\Rest::has_more
+     * @param bool $expected
+     * @param array $cache
+     * @param bool $has_more
      * @return void
+     * @throws ReflectionException
+     * @dataProvider provider_has_more
      */
-    public function test_has_more(): void
+    public function test_has_more(bool $expected, array $cache, bool $has_more): void
     {
-        $this->markTestIncomplete();
+        $instance = Mockery::mock(Rest::class)->makePartial();
+        $collection = new Content_Model_Collection();
+        $strategy = Mockery::namedMock('Has_More_Mock', Has_More_Strategy::class);
+
+        $this->set_protected_property($instance, 'object_cache', $cache);
+
+        $instance->allows('get_data')->andReturn($collection);
+        $instance->allows('get_has_more_strategy')->andReturn($strategy);
+
+        $strategy->allows('set_content_model_collection')->with($collection)->andReturn($strategy);
+
+        $strategy->expects('has_more')->times((int)!empty($cache))->andReturn($has_more);
+
+        $this->assertEquals($expected, $instance->has_more());
+    }
+
+    protected function provider_has_more(): Generator
+    {
+        yield 'Returns true when data has not been fetched' => [true, [], false];
+        yield 'Returns false when strategy returns false and data has been fetched' => [false, ['get_data' => 'foo'], false];
+        yield 'Returns true when strategy returns true and data has been fetched' => [true, ['get_data' => 'foo'], true];
     }
 
     /**
