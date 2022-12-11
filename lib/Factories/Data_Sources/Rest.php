@@ -49,10 +49,19 @@ class Rest implements Data_Source, Has_Content_Model_Instance, Has_Data_Source_A
         return false;
     }
 
+    /**
+     * Gets the Rest instance for the next batch of data.
+     *
+     * @return static
+     */
     public function get_next(): static
     {
-        // TODO: Implement get_next() method.
-        return clone $this;
+        $instance = clone $this;
+
+        // Reset the object cache.
+        $instance->object_cache = [];
+
+        return $instance->set_batch_request_builder($this->get_batch_request_builder()->get_next());
     }
 
     /**

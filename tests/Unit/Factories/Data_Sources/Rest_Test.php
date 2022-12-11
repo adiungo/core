@@ -6,9 +6,12 @@ namespace Adiungo\Core\Tests\Unit\Factories\Data_Sources;
 use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Abstracts\Int_Id_Based_Request_Builder;
 use Adiungo\Core\Factories\Data_Sources\Rest;
+use Adiungo\Core\Interfaces\Has_Paginated_Request;
 use Adiungo\Tests\Test_Case;
+use Adiungo\Tests\Traits\With_Inaccessible_Properties;
 use JsonException;
 use Mockery;
+use ReflectionException;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -19,6 +22,7 @@ use Underpin\Factories\Request;
 
 class Rest_Test extends Test_Case
 {
+    use With_Inaccessible_Properties;
 
     /**
      * @covers \Adiungo\Core\Factories\Data_Sources\Rest::make_request
@@ -50,10 +54,22 @@ class Rest_Test extends Test_Case
     /**
      * @covers \Adiungo\Core\Factories\Data_Sources\Rest::get_next
      * @return void
+     * @throws ReflectionException
      */
     public function test_can_get_next(): void
     {
-        $this->markTestIncomplete();
+        $next_builder = Mockery::mock(Has_Paginated_Request::class);
+        $builder = Mockery::mock(Has_Paginated_Request::class);
+        $instance = (new Rest())->set_batch_request_builder($builder);
+
+        $this->set_protected_property($instance, 'object_cache', ['foo' => 'bar']);
+
+        $builder->allows('get_next')->andReturn($next_builder);
+
+        $expected = $instance->get_next();
+
+        $this->assertEquals([], $this->get_protected_property($expected, 'object_cache')->getValue($expected));
+        $this->assertSame($expected->get_batch_request_builder(), $next_builder);
     }
 
     /**
