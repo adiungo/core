@@ -7,11 +7,14 @@ use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Collections\Content_Model_Collection;
 use Adiungo\Core\Factories\Updated_Date_Strategy;
 use Adiungo\Core\Interfaces\Has_Updated_Date;
+use Adiungo\Core\Traits\With_Updated_Date;
 use Adiungo\Tests\Test_Case;
 use DateTime;
 use Generator;
 use Mockery;
 use Underpin\Exceptions\Operation_Failed;
+use Underpin\Interfaces\Identifiable_String;
+use Underpin\Traits\With_String_Identity;
 
 class Updated_Date_Strategy_Test extends Test_Case
 {
@@ -22,17 +25,9 @@ class Updated_Date_Strategy_Test extends Test_Case
      */
     public function test_can_get_oldest_model(): void
     {
-        $oldest = Mockery::mock(Content_Model::class, Has_Updated_Date::class);
-        $newest = Mockery::mock(Content_Model::class, Has_Updated_Date::class);
-        $middle = Mockery::mock(Content_Model::class, Has_Updated_Date::class);
-
-        $oldest->allows('get_updated_date')->andReturn(new DateTime('1 week ago'));
-        $newest->allows('get_updated_date')->andReturn(new DateTime('1 day ago'));
-        $middle->allows('get_updated_date')->andReturn(new DateTime('6 days ago'));
-
-        $oldest->allows('get_id')->andReturn('middle');
-        $newest->allows('get_id')->andReturn('oldest');
-        $middle->allows('get_id')->andReturn('newest');
+        $oldest = $this->get_mock()->set_updated_date(new DateTime('1 week ago'))->set_id('oldest');
+        $newest = $this->get_mock()->set_updated_date(new DateTime('1 day ago'))->set_id('newest');
+        $middle = $this->get_mock()->set_updated_date(new DateTime('6 days ago'))->set_id('middle');
 
         $collection = (new Content_Model_Collection())->seed([
             $middle,
@@ -42,6 +37,14 @@ class Updated_Date_Strategy_Test extends Test_Case
 
         $strategy = (new Updated_Date_Strategy())->set_content_model_collection($collection);
         $this->assertSame($strategy->get_oldest_model(), $oldest);
+    }
+
+    protected function get_mock(): Content_Model&Has_Updated_Date&Identifiable_String
+    {
+        return new class extends Content_Model implements Has_Updated_Date, Identifiable_String {
+            use With_Updated_Date;
+            use With_String_Identity;
+        };
     }
 
     /**
@@ -69,8 +72,9 @@ class Updated_Date_Strategy_Test extends Test_Case
      */
     protected function provider_has_more(): Generator
     {
+        $same = new DateTime();
         yield 'updated date happened after the latest model update, return true' => [true, new DateTime(), new DateTime('1 second ago')];
         yield 'updated date happened before the latest model update, return true' => [false, new DateTime('1 second ago'), new DateTime()];
-        yield 'update date happened at the exact same time as the latest model update, return true' => [true, new DateTime(), new DateTime()];
+        yield 'update date happened at the exact same time as the latest model update, return true' => [true, $same, clone $same];
     }
 }
