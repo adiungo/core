@@ -45,8 +45,12 @@ class Rest implements Data_Source, Has_Content_Model_Instance, Has_Data_Source_A
 
     public function has_more(): bool
     {
-        // TODO: Implement has_more() method.
-        return false;
+        // If we haven't fetched data, there's definitely more to get.
+        if (!isset($this->object_cache['get_data'])) {
+            return true;
+        }
+
+        return $this->get_has_more_strategy()->set_content_model_collection($this->get_data())->has_more();
     }
 
     /**
