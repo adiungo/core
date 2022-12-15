@@ -5,6 +5,7 @@ namespace Adiungo\Core\Tests\Integration;
 use Adiungo\Core\Collections\Content_Model_Collection;
 use Adiungo\Core\Factories\Adapters\Data_Source_Adapter;
 use Adiungo\Core\Factories\Data_Sources\CSV;
+use Adiungo\Core\Tests\Integration\Mocks\Test_Data_Source_Adapter;
 use Adiungo\Core\Tests\Integration\Mocks\Test_Model;
 use Adiungo\Tests\Test_Case;
 use Underpin\Enums\Types;
@@ -20,14 +21,8 @@ class CSV_Data_Source_Test extends Test_Case
      */
     public function test_can_get_item(): void
     {
-        $adapter = (new Data_Source_Adapter())
-            ->set_content_model_instance(Test_Model::class)
-            ->map_field('content', 'set_content', Types::String)
-            ->map_field('name', 'set_name', Types::String)
-            ->map_field('id', 'set_id', Types::Integer);
-
         $item = (new CSV())
-            ->set_data_source_adapter($adapter)
+            ->set_data_source_adapter(new Test_Data_Source_Adapter())
             ->set_csv("id,content,name\r1,\"the content\",alex\r2,\"more content\",stephen")
             ->get_item(2);
 
