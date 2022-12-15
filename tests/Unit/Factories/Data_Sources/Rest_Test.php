@@ -6,42 +6,60 @@ namespace Adiungo\Core\Tests\Unit\Factories\Data_Sources;
 use Adiungo\Core\Abstracts\Batch_Response_Adapter;
 use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Abstracts\Has_More_Strategy;
+use Adiungo\Core\Abstracts\Http_Strategy;
 use Adiungo\Core\Abstracts\Int_Id_Based_Request_Builder;
 use Adiungo\Core\Collections\Content_Model_Collection;
 use Adiungo\Core\Factories\Data_Sources\Rest;
 use Adiungo\Core\Interfaces\Has_Paginated_Request;
 use Adiungo\Tests\Test_Case;
+use Adiungo\Tests\Traits\With_Inaccessible_Methods;
 use Adiungo\Tests\Traits\With_Inaccessible_Properties;
 use Generator;
 use JsonException;
 use Mockery;
 use ReflectionException;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
-use Symfony\Contracts\HttpClient\ResponseInterface;
 use Underpin\Exceptions\Operation_Failed;
 use Underpin\Factories\Request;
 
 class Rest_Test extends Test_Case
 {
     use With_Inaccessible_Properties;
+    use With_Inaccessible_Methods;
 
     /**
-     * @covers \Adiungo\Core\Factories\Data_Sources\Rest::make_request
+     * @covers \Adiungo\Core\Factories\Data_Sources\Rest::get_response
+     * @return void
+     * @throws ReflectionException
+     */
+    public function test_can_get_response(): void
+    {
+        $instance = Mockery::mock(Rest::class)->makePartial()->shouldAllowMockingProtectedMethods();
+        $strategy = Mockery::mock(Http_Strategy::class);
+        $request = Mockery::mock(Request::class);
+
+        $strategy->allows('to_string')->andReturn('{"foo":"bar"}');
+        $strategy->expects('set_request')->with($request);
+        $instance->allows('get_http_strategy')->andReturn($strategy);
+
+        $result = $this->call_inaccessible_method($instance, 'get_response', $request);
+
+        $this->assertEquals('{"foo":"bar"}', $result);
+    }
+
+    /**
+     * @covers \Adiungo\Core\Factories\Data_Sources\Rest::get_data
      * @return void
      */
-    public function test_can_make_request(): void
+    public function test_can_get_data(): void
     {
         $instance = Mockery::mock(Rest::class)->makePartial()->shouldAllowMockingProtectedMethods();
         $request = Mockery::mock(Request::class);
-        $response = Mockery::mock(ResponseInterface::class);
+        $response = '{"foo": "bar"}';
         $adapter = Mockery::mock(Batch_Response_Adapter::class);
         $expected = ['foo' => 'foo', 'bar' => 'bar'];
 
         $instance->expects('get_batch_request_builder->get_request')->andReturn($request);
-        $instance->expects('make_request')->with($request)->andReturn($response);
+        $instance->expects('get_response')->with($request)->andReturn($response);
         $instance->expects('get_batch_response_adapter')->andReturn($adapter);
         $instance->allows('get_data_source_adapter->convert_to_model')->andReturnUsing(function (array $data) {
             $result = Mockery::mock(Content_Model::class);
@@ -56,15 +74,6 @@ class Rest_Test extends Test_Case
         $items = $instance->get_data()->pluck('id');
 
         $this->assertEquals($expected, $items);
-    }
-
-    /**
-     * @covers \Adiungo\Core\Factories\Data_Sources\Rest::get_data
-     * @return void
-     */
-    public function test_can_get_data(): void
-    {
-        $this->markTestIncomplete();
     }
 
     /**
@@ -125,10 +134,6 @@ class Rest_Test extends Test_Case
     /**
      * @covers \Adiungo\Core\Factories\Data_Sources\Rest::get_item
      * @return void
-     * @throws ClientExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws TransportExceptionInterface
      * @throws Operation_Failed
      * @throws JsonException
      */
@@ -136,17 +141,15 @@ class Rest_Test extends Test_Case
     {
         $instance = Mockery::mock(Rest::class)->shouldAllowMockingProtectedMethods()->makePartial();
         $request = Mockery::mock(Request::class);
-        $response = Mockery::mock(ResponseInterface::class);
+        $response = '{"foo": "bar"}';
         $builder = Mockery::mock(Int_Id_Based_Request_Builder::class);
         $expected = Mockery::mock(Content_Model::class);
 
         $builder->expects('set_id')->once()->andReturn($builder);
         $builder->expects('get_request')->once()->andReturn($request);
 
-        $response->expects('getContent')->once()->andReturn('{"foo": "bar"}');
-
         $instance->expects('get_single_request_builder')->once()->andReturn($builder);
-        $instance->expects('make_request')->with($request)->once()->andReturn($response);
+        $instance->expects('get_response')->with($request)->once()->andReturn($response);
         $instance->expects('get_data_source_adapter->convert_to_model')->once()->andReturn($expected);
 
         $this->assertSame($instance->get_item(123), $expected);
