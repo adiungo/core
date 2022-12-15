@@ -2,21 +2,18 @@
 
 namespace Adiungo\Core\Interfaces;
 
-
-use Symfony\Contracts\HttpClient\ResponseInterface;
-
 interface Has_Response
 {
     /**
      * Gets the data source
-     * @return ResponseInterface
+     * @return string
      */
-    public function get_response(): ResponseInterface;
+    public function get_response(): string;
 
     /**
      * Sets the data source
-     * @param ResponseInterface $response
+     * @param string $response
      * @return $this
      */
-    public function set_response(ResponseInterface $response): static;
+    public function set_response(string $response): static;
 }

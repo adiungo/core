@@ -40,8 +40,7 @@
     },
     "require": {
         "underpin/underpin": "^3.0",
-        "parsecsv/php-parsecsv": "^1.3",
-        "symfony/http-client": "^6.2"
+        "parsecsv/php-parsecsv": "^1.3"
     },
     "require-dev": {
         "adiungo/tests": "^0.1.0"

@@ -2,25 +2,20 @@
 
 namespace Adiungo\Core\Traits;
 
-
-namespace Adiungo\Core\Traits;
-
-use Symfony\Contracts\HttpClient\ResponseInterface;
-
 /**
- * @see Has_ResponseInterface
+ * @see Has_Response
  */
 trait With_Response
 {
 
-    protected ResponseInterface $response;
+    protected string $response;
 
-    public function get_response(): ResponseInterface
+    public function get_response(): string
     {
         return $this->response;
     }
 
-    public function set_response(ResponseInterface $response): static
+    public function set_response(string $response): static
     {
         $this->response = $response;
 
