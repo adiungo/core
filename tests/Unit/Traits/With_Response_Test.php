@@ -8,7 +8,6 @@ use Adiungo\Tests\Test_Case;
 use Adiungo\Tests\Traits\With_Simple_Setter_Getter_Tests;
 use Generator;
 use Mockery;
-use Symfony\Contracts\HttpClient\ResponseInterface;
 
 /**
  * @covers \Adiungo\Core\Traits\With_Response::set_response
@@ -27,6 +26,6 @@ class With_Response_Test extends Test_Case
 
     protected function get_setters_and_getters(): Generator
     {
-        yield 'response' => ['set_response', 'get_response', Mockery::mock(ResponseInterface::class)];
+        yield 'response' => ['set_response', 'get_response', 'foo'];
     }
 }
