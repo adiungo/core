@@ -9,10 +9,10 @@ use Adiungo\Core\Tests\Integration\Mocks\Batch_Response_Adapter_Mock;
 use Adiungo\Core\Tests\Integration\Mocks\Has_More_Strategy_Mock;
 use Adiungo\Core\Tests\Integration\Mocks\Http_Strategy_Mock;
 use Adiungo\Core\Tests\Integration\Mocks\Single_Request_Builder;
+use Adiungo\Core\Tests\Integration\Mocks\Single_Response_Adapter_Mock;
 use Adiungo\Core\Tests\Integration\Mocks\Test_Data_Source_Adapter;
 use Adiungo\Core\Tests\Integration\Mocks\Test_Model;
 use Adiungo\Tests\Test_Case;
-use JsonException;
 use Underpin\Enums\Rest as Method;
 use Underpin\Enums\Types;
 use Underpin\Exceptions\Operation_Failed;
@@ -38,7 +38,8 @@ class Rest_Data_Source_Test extends Test_Case
             ->set_has_more_strategy(new Has_More_Strategy_Mock())
             ->set_http_strategy(new Http_Strategy_Mock())
             ->set_single_request_builder(new Single_Request_Builder())
-            ->set_batch_response_adapter(new Batch_Response_Adapter_Mock());
+            ->set_batch_response_adapter(new Batch_Response_Adapter_Mock())
+            ->set_single_response_adapter(new Single_Response_Adapter_Mock());
 
     }
 
@@ -86,7 +87,6 @@ class Rest_Data_Source_Test extends Test_Case
      * @throws Operation_Failed
      * @throws Url_Exception
      * @throws Validation_Failed
-     * @throws JsonException
      * @covers \Adiungo\Core\Factories\Data_Sources\Rest::get_item()
      */
     public function test_can_get_item(): void
