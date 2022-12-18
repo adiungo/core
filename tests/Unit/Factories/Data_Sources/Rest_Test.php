@@ -8,6 +8,7 @@ use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Abstracts\Has_More_Strategy;
 use Adiungo\Core\Abstracts\Http_Strategy;
 use Adiungo\Core\Abstracts\Int_Id_Based_Request_Builder;
+use Adiungo\Core\Abstracts\Single_Response_Adapter;
 use Adiungo\Core\Collections\Content_Model_Collection;
 use Adiungo\Core\Factories\Data_Sources\Rest;
 use Adiungo\Core\Interfaces\Has_Paginated_Request;
@@ -15,7 +16,6 @@ use Adiungo\Tests\Test_Case;
 use Adiungo\Tests\Traits\With_Inaccessible_Methods;
 use Adiungo\Tests\Traits\With_Inaccessible_Properties;
 use Generator;
-use JsonException;
 use Mockery;
 use ReflectionException;
 use Underpin\Exceptions\Operation_Failed;
@@ -135,7 +135,6 @@ class Rest_Test extends Test_Case
      * @covers \Adiungo\Core\Factories\Data_Sources\Rest::get_item
      * @return void
      * @throws Operation_Failed
-     * @throws JsonException
      */
     public function test_can_get_item(): void
     {
@@ -144,6 +143,10 @@ class Rest_Test extends Test_Case
         $response = '{"foo": "bar"}';
         $builder = Mockery::mock(Int_Id_Based_Request_Builder::class);
         $expected = Mockery::mock(Content_Model::class);
+        $adapter = Mockery::mock(Single_Response_Adapter::class);
+
+        $adapter->expects('set_response')->with($response);
+        $adapter->expects('to_array')->once()->andReturn([['foo' => 'bar']]);
 
         $builder->expects('set_id')->once()->andReturn($builder);
         $builder->expects('get_request')->once()->andReturn($request);
@@ -151,6 +154,7 @@ class Rest_Test extends Test_Case
         $instance->expects('get_single_request_builder')->once()->andReturn($builder);
         $instance->expects('get_response')->with($request)->once()->andReturn($response);
         $instance->expects('get_data_source_adapter->convert_to_model')->once()->andReturn($expected);
+        $instance->expects('get_single_response_adapter')->andReturn($adapter);
 
         $this->assertSame($instance->get_item(123), $expected);
         // Run twice to confirm the data is cached and does not run more than once.
