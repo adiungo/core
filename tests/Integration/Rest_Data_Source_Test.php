@@ -24,7 +24,6 @@ use Underpin\Factories\Url;
 
 class Rest_Data_Source_Test extends Test_Case
 {
-
     protected Rest $instance;
 
     public function setUp(): void
@@ -40,7 +39,6 @@ class Rest_Data_Source_Test extends Test_Case
             ->set_single_request_builder(new Single_Request_Builder())
             ->set_batch_response_adapter(new Batch_Response_Adapter_Mock())
             ->set_single_response_adapter(new Single_Response_Adapter_Mock());
-
     }
 
     /**

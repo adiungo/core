@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Traits;
 
-
 use Adiungo\Core\Collections\Content_Model_Collection;
 
 trait With_Content_Model_Collection

@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Traits;
 
-
 use Adiungo\Core\Abstracts\Has_More_Strategy;
 
 trait With_Has_More_Strategy

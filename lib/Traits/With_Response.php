@@ -7,7 +7,6 @@ namespace Adiungo\Core\Traits;
  */
 trait With_Response
 {
-
     protected string $response;
 
     public function get_response(): string
@@ -21,5 +20,4 @@ trait With_Response
 
         return $this;
     }
-
 }

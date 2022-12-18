@@ -6,7 +6,6 @@ use DateTime;
 
 interface Has_Published_Date
 {
-
     /**
      * Gets the published date
      *

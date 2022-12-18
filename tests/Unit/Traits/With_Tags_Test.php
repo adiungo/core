@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Traits;
 
-
 use Adiungo\Core\Collections\Tag_Collection;
 use Adiungo\Core\Factories\Tag;
 use Adiungo\Core\Interfaces\Has_Tags;
@@ -14,7 +13,6 @@ use Underpin\Exceptions\Operation_Failed;
 
 class With_Tags_Test extends Test_Case
 {
-
     /**
      * @covers \Adiungo\Core\Traits\With_Tags::get_tags
      * @return void
@@ -26,7 +24,7 @@ class With_Tags_Test extends Test_Case
 
     protected function get_instance(): Has_Tags
     {
-        return new class implements Has_Tags {
+        return new class () implements Has_Tags {
             use With_Tags;
         };
     }
@@ -115,5 +113,4 @@ class With_Tags_Test extends Test_Case
             (new Tag())->set_name('That')->set_id('that')
         ]), $instance->get_tags());
     }
-
 }

@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Traits;
 
-
 use Adiungo\Core\Abstracts\Content_Model;
 
 trait With_Content_Model_Instance

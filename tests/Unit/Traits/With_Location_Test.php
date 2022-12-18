@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Traits;
 
-
 use Adiungo\Core\Factories\Location;
 use Adiungo\Core\Traits\With_Location;
 use Adiungo\Tests\Test_Case;

@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Integration\Mocks;
 
-
 use Adiungo\Core\Abstracts\Batch_Response_Adapter;
 use Underpin\Helpers\Array_Helper;
 

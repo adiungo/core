@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Traits;
 
-
 use Adiungo\Core\Collections\Category_Collection;
 use Adiungo\Core\Factories\Category;
 use Adiungo\Core\Interfaces\Has_Categories;
@@ -14,7 +13,6 @@ use Underpin\Exceptions\Operation_Failed;
 
 class With_Categories_Test extends Test_Case
 {
-
     /**
      * @covers \Adiungo\Core\Traits\With_Categories::get_categories
      * @return void
@@ -26,7 +24,7 @@ class With_Categories_Test extends Test_Case
 
     protected function get_instance(): Has_Categories
     {
-        return new class implements Has_Categories {
+        return new class () implements Has_Categories {
             use With_Categories;
         };
     }

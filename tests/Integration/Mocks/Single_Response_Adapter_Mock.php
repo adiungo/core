@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Integration\Mocks;
 
-
 use Adiungo\Core\Abstracts\Single_Response_Adapter;
 
 class Single_Response_Adapter_Mock extends Single_Response_Adapter

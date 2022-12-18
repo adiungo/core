@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Factories;
 
-
 use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Interfaces\Has_Data_Source;
 use Adiungo\Core\Traits\With_Data_Source;

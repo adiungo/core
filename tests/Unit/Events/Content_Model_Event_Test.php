@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Events;
 
-
 use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Events\Content_Model_Event;
 use Adiungo\Core\Events\Providers\Content_Model_Provider;
@@ -43,7 +42,7 @@ class Content_Model_Event_Test extends Test_Case
         $instance->shouldAllowMockingProtectedMethods()->makePartial();
         $model = 'Model_Custom';
         $action = 'delete';
-        $callback = fn() => '';
+        $callback = fn () => '';
 
         $instance->allows('get_broadcaster_key')->with($model, $action)->andReturn('foo');
         $instance->expects('get_broadcaster->attach')->with('foo', $callback);
@@ -63,7 +62,7 @@ class Content_Model_Event_Test extends Test_Case
         $instance->shouldAllowMockingProtectedMethods()->makePartial();
         $model = 'Model_Custom';
         $action = 'delete';
-        $callback = fn() => '';
+        $callback = fn () => '';
 
         $instance->allows('get_broadcaster_key')->with($model, $action)->andReturn('foo');
         $instance->expects('get_broadcaster->detach')->with('foo', $callback);
@@ -91,5 +90,4 @@ class Content_Model_Event_Test extends Test_Case
 
         $instance->broadcast($action, $provider);
     }
-
 }

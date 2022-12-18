@@ -2,12 +2,10 @@
 
 namespace Adiungo\Core\Traits;
 
-
 namespace Adiungo\Core\Traits;
 
 trait With_Offset
 {
-
     protected int $offset;
 
     /**
@@ -32,5 +30,4 @@ trait With_Offset
 
         return $this;
     }
-
 }

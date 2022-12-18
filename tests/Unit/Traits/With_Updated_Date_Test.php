@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Traits;
 
-
 use Adiungo\Core\Traits\With_Updated_Date;
 use Adiungo\Tests\Test_Case;
 use Adiungo\Tests\Traits\With_Simple_Setter_Getter_Tests;

@@ -2,13 +2,11 @@
 
 namespace Adiungo\Core\Tests\Integration\Mocks;
 
-
 use Adiungo\Core\Factories\Adapters\Data_Source_Adapter;
 use Underpin\Enums\Types;
 
 class Test_Data_Source_Adapter extends Data_Source_Adapter
 {
-
     public function __construct()
     {
         $this->set_content_model_instance(Test_Model::class)

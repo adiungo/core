@@ -2,13 +2,11 @@
 
 namespace Adiungo\Core\Tests\Unit\Factories;
 
-
 use Adiungo\Core\Factories\Location;
 use Adiungo\Tests\Test_Case;
 
 class Location_Test extends Test_Case
 {
-
     /**
      *
      * @covers \Adiungo\Core\Factories\Location::get_latitude
@@ -27,5 +25,4 @@ class Location_Test extends Test_Case
         $this->assertSame($latitude, $location->get_latitude());
         $this->assertSame($longitude, $location->get_longitude());
     }
-
 }

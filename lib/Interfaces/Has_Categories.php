@@ -8,7 +8,6 @@ use Underpin\Exceptions\Operation_Failed;
 
 interface Has_Categories
 {
-
     /**
      * Gets the category
      *

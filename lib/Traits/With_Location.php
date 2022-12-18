@@ -2,14 +2,12 @@
 
 namespace Adiungo\Core\Traits;
 
-
 namespace Adiungo\Core\Traits;
 
 use Adiungo\Core\Factories\Location;
 
 trait With_Location
 {
-
     protected Location $location;
 
     /**
@@ -34,5 +32,4 @@ trait With_Location
 
         return $this;
     }
-
 }

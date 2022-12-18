@@ -7,7 +7,6 @@ use Underpin\Exceptions\Operation_Failed;
 
 interface Has_Attachments
 {
-
     /**
      * Gets the attachment
      *

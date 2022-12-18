@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Abstracts;
 
-
 use Adiungo\Core\Interfaces\Has_Limit;
 use Adiungo\Core\Interfaces\Has_Offset;
 use Adiungo\Core\Interfaces\Has_Paginated_Request;

@@ -4,7 +4,6 @@ namespace Adiungo\Core\Interfaces;
 
 interface Has_Offset
 {
-
     /**
      * Gets the offset
      *

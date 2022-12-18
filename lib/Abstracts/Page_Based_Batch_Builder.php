@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Abstracts;
 
-
 use Adiungo\Core\Interfaces\Has_Page;
 use Adiungo\Core\Interfaces\Has_Paginated_Request;
 use Underpin\Traits\With_Request;

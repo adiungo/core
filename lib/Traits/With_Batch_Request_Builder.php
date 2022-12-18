@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Traits;
 
-
 use Adiungo\Core\Interfaces\Has_Paginated_Request;
 
 trait With_Batch_Request_Builder

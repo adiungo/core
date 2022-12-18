@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Traits;
 
-
 use Adiungo\Core\Abstracts\Single_Response_Adapter;
 
 trait With_Single_Response_Adapter

@@ -2,12 +2,10 @@
 
 namespace Adiungo\Core\Traits;
 
-
 namespace Adiungo\Core\Traits;
 
 trait With_Name
 {
-
     protected string $name;
 
     /**
@@ -32,5 +30,4 @@ trait With_Name
 
         return $this;
     }
-
 }

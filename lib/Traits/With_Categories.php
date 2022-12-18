@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Traits;
 
-
 namespace Adiungo\Core\Traits;
 
 use Adiungo\Core\Collections\Category_Collection;
@@ -11,7 +10,6 @@ use Underpin\Exceptions\Operation_Failed;
 
 trait With_Categories
 {
-
     protected Category_Collection $categories;
 
     /**
@@ -74,5 +72,4 @@ trait With_Categories
     {
         return !empty($this->get_categories()->to_array());
     }
-
 }

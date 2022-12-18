@@ -7,7 +7,6 @@ use Underpin\Helpers\String_Helper;
 
 class Http_Strategy_Mock extends Http_Strategy
 {
-
     public function __toString(): string
     {
         return $this->to_string();

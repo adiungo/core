@@ -4,7 +4,6 @@ namespace Adiungo\Core\Traits;
 
 trait With_Limit
 {
-
     protected int $limit;
 
     /**
@@ -29,5 +28,4 @@ trait With_Limit
 
         return $this;
     }
-
 }

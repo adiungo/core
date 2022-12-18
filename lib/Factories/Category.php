@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Factories;
 
-
 use Adiungo\Core\Interfaces\Has_Name;
 use Adiungo\Core\Traits\With_Name;
 use Underpin\Interfaces\Identifiable_String;

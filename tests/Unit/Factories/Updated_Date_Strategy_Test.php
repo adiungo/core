@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Factories;
 
-
 use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Collections\Content_Model_Collection;
 use Adiungo\Core\Factories\Updated_Date_Strategy;
@@ -41,7 +40,7 @@ class Updated_Date_Strategy_Test extends Test_Case
 
     protected function get_mock(): Content_Model&Has_Updated_Date&Identifiable_String
     {
-        return new class extends Content_Model implements Has_Updated_Date, Identifiable_String {
+        return new class () extends Content_Model implements Has_Updated_Date, Identifiable_String {
             use With_Updated_Date;
             use With_String_Identity;
         };

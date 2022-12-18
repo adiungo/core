@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Collection;
 
-
 use Adiungo\Core\Collections\Tag_Collection;
 use Adiungo\Core\Factories\Tag;
 use Adiungo\Tests\Test_Case;
@@ -11,7 +10,6 @@ use Underpin\Exceptions\Operation_Failed;
 
 class Tag_Collection_Test extends Test_Case
 {
-
     /**
      * @covers       \Adiungo\Core\Collections\Tag_Collection::from_string
      *

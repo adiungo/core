@@ -14,7 +14,6 @@ class Content_Model_Provider implements Data_Provider
      */
     public function __construct(protected Content_Model $content_model)
     {
-
     }
 
     /**

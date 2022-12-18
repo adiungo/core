@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Traits;
 
-
 use Adiungo\Core\Factories\Index_Strategy;
 
 trait With_Index_Strategy
@@ -31,5 +30,4 @@ trait With_Index_Strategy
 
         return $this;
     }
-
 }

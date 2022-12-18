@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Interfaces;
 
-
 namespace Adiungo\Core\Interfaces;
 
 use Adiungo\Core\Traits\With_Data_Source;

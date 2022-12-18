@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Traits;
 
-
 use Adiungo\Core\Interfaces\Data_Source;
 use Adiungo\Core\Traits\With_Data_Source;
 use Adiungo\Tests\Test_Case;

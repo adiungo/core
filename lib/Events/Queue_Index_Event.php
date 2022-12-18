@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Events;
 
-
 use Adiungo\Core\Events\Providers\Index_Strategy_Provider;
 use Adiungo\Core\Interfaces\Has_Index_Strategy;
 use Underpin\Exceptions\Operation_Failed;

@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Abstracts;
 
-
 use Adiungo\Core\Events\Content_Model_Event;
 use Adiungo\Core\Events\Providers\Content_Model_Provider;
 use Underpin\Interfaces\Identifiable;
@@ -10,7 +9,6 @@ use Underpin\Interfaces\Model;
 
 abstract class Content_Model implements Model, Identifiable
 {
-
     /**
      * Gets the content model event.
      *

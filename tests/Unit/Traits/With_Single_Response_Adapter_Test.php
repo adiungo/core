@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Traits;
 
-
 use Adiungo\Core\Abstracts\Single_Response_Adapter;
 use Adiungo\Core\Traits\With_Single_Response_Adapter;
 use Adiungo\Tests\Test_Case;

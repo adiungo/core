@@ -6,7 +6,6 @@ use Underpin\Factories\Url;
 
 interface Has_Origin
 {
-
     /**
      * Gets the origin
      *

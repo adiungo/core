@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Abstracts;
 
-
 use Adiungo\Core\Abstracts\Page_Based_Batch_Builder;
 use Adiungo\Tests\Test_Case;
 use Mockery;
