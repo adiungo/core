@@ -65,7 +65,7 @@ class Data_Source_Adapter implements Has_Content_Model_Instance
     /**
      * Converts a set of raw data into the model, using the mappings set in this class.
      *
-     * @param string[] $raw_model
+     * @param mixed[] $raw_model
      * @return Content_Model
      * @throws Operation_Failed
      */
@@ -79,9 +79,9 @@ class Data_Source_Adapter implements Has_Content_Model_Instance
         try {
             Array_Helper::each($raw_model, fn(mixed $item, string $key) => $this->set_mapped_property($key, $item, $model));
         } catch (TypeError $exception) {
-            throw new Operation_Failed("Could not adapt CSV to the model.", previous: $exception);
+            throw new Operation_Failed("Could not adapt to the model.", previous: $exception);
         } catch (Unknown_Registry_Item $exception) {
-            throw new Operation_Failed("Could not adapt CSV to the model because the mapped property was not set.", previous: $exception);
+            throw new Operation_Failed("Could not adapt to the model because the mapped property was not set.", previous: $exception);
         }
 
         return $model;
