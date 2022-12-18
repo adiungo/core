@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Factories;
 
-
 use Adiungo\Core\Interfaces\Has_Name;
 use Adiungo\Core\Traits\With_Name;
 use Underpin\Exceptions\Operation_Failed;
@@ -18,7 +17,6 @@ class Tag implements Identifiable_String, Has_Name, Can_Convert_To_String
 
     final public function __construct()
     {
-
     }
 
     /**

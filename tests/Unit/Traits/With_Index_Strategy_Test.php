@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Traits;
 
-
 use Adiungo\Core\Factories\Index_Strategy;
 use Adiungo\Core\Traits\With_Index_Strategy;
 use Adiungo\Tests\Test_Case;

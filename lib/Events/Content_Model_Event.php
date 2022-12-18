@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Events;
 
-
 use Adiungo\Core\Events\Providers\Content_Model_Provider;
 use Underpin\Exceptions\Operation_Failed;
 use Underpin\Exceptions\Unknown_Registry_Item;

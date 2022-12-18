@@ -2,14 +2,12 @@
 
 namespace Adiungo\Core\Traits;
 
-
 namespace Adiungo\Core\Traits;
 
 use Underpin\Factories\Url;
 
 trait With_Origin
 {
-
     protected Url $origin;
 
     /**
@@ -34,5 +32,4 @@ trait With_Origin
 
         return $this;
     }
-
 }

@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Events;
 
-
 use Adiungo\Core\Events\Providers\Index_Strategy_Provider;
 use Adiungo\Core\Events\Queue_Index_Event;
 use Adiungo\Core\Factories\Index_Strategy;
@@ -32,7 +31,7 @@ class Queue_Index_Event_Test extends Test_Case
 
         /** @var Mockery\MockInterface&Has_Index_Strategy $index_strategy_builder */
         $index_strategy_builder = Mockery::namedMock('Builder', $this->create_builder()::class);
-        $callback = fn() => '';
+        $callback = fn () => '';
 
         $instance->expects('get_broadcaster->attach')->with('Builder', $callback);
 
@@ -52,7 +51,7 @@ class Queue_Index_Event_Test extends Test_Case
 
         /** @var Mockery\MockInterface&Has_Index_Strategy $index_strategy_builder */
         $index_strategy_builder = Mockery::namedMock('Builder', $this->create_builder()::class);
-        $callback = fn() => '';
+        $callback = fn () => '';
 
         $instance->expects('get_broadcaster->detach')->with('Builder', $callback);
 
@@ -90,7 +89,7 @@ class Queue_Index_Event_Test extends Test_Case
      */
     private function create_builder(): Has_Index_Strategy
     {
-        return new class implements Has_Index_Strategy {
+        return new class () implements Has_Index_Strategy {
             use With_Index_Strategy;
         };
     }

@@ -4,7 +4,6 @@ namespace Adiungo\Core\Interfaces;
 
 interface Has_Page
 {
-
     /**
      * Gets the page
      *

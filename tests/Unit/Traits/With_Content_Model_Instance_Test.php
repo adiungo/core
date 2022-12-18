@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Traits;
 
-
 use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Traits\With_Content_Model_Instance;
 use Adiungo\Tests\Test_Case;

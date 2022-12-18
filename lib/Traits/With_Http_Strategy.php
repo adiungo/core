@@ -33,5 +33,4 @@ trait With_Http_Strategy
 
         return $this;
     }
-
 }

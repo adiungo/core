@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Collections;
 
-
 use Adiungo\Core\Interfaces\Attachment;
 use Underpin\Abstracts\Registries\Object_Registry;
 

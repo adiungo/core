@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Factories\Data_Sources;
 
-
 use Adiungo\Core\Abstracts\Batch_Response_Adapter;
 use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Abstracts\Has_More_Strategy;
@@ -160,5 +159,4 @@ class Rest_Test extends Test_Case
         // Run twice to confirm the data is cached and does not run more than once.
         $this->assertSame($instance->get_item(123), $expected);
     }
-
 }

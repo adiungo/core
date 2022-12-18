@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Factories;
 
-
 use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Factories\Index_Strategy;
 use Adiungo\Tests\Test_Case;

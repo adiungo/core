@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Abstracts;
 
-
 use Underpin\Interfaces\Can_Convert_To_String;
 use Underpin\Interfaces\Has_Request;
 use Underpin\Traits\With_Request;

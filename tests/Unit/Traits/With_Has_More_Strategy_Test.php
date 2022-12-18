@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Traits;
 
-
 use Adiungo\Core\Abstracts\Has_More_Strategy;
 use Adiungo\Core\Traits\With_Has_More_Strategy;
 use Adiungo\Tests\Test_Case;

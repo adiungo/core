@@ -2,13 +2,10 @@
 
 namespace Adiungo\Core\Factories;
 
-
 class Location
 {
-
     public function __construct(protected float $latitude, protected float $longitude)
     {
-
     }
 
     /**
@@ -30,5 +27,4 @@ class Location
     {
         return $this->longitude;
     }
-
 }

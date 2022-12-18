@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Events\Providers;
 
-
 use Adiungo\Core\Factories\Index_Strategy;
 use Underpin\Interfaces\Data_Provider;
 
@@ -15,7 +14,6 @@ class Index_Strategy_Provider implements Data_Provider
      */
     public function __construct(protected Index_Strategy $index_strategy)
     {
-
     }
 
     /**

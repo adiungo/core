@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Traits;
 
-
 use Adiungo\Core\Abstracts\Batch_Response_Adapter;
 use Adiungo\Core\Traits\With_Batch_Response_Adapter;
 use Adiungo\Tests\Test_Case;

@@ -6,7 +6,6 @@ use Adiungo\Core\Factories\Location;
 
 interface Has_Location
 {
-
     /**
      * Gets the location
      *

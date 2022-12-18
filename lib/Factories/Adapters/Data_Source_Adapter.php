@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Factories\Adapters;
 
-
 use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Interfaces\Has_Content_Model_Instance;
 use Adiungo\Core\Traits\With_Content_Model_Instance;
@@ -47,7 +46,7 @@ class Data_Source_Adapter implements Has_Content_Model_Instance
      */
     public function get_mappings(): Registry
     {
-        return $this->load_from_cache('mappings', fn() => new Registry(fn($key, $value) => $this->mapping_is_valid($value['setter'], $value['type'])));
+        return $this->load_from_cache('mappings', fn () => new Registry(fn ($key, $value) => $this->mapping_is_valid($value['setter'], $value['type'])));
     }
 
     /**
@@ -77,7 +76,7 @@ class Data_Source_Adapter implements Has_Content_Model_Instance
         $model = new $model();
 
         try {
-            Array_Helper::each($raw_model, fn(mixed $item, string $key) => $this->set_mapped_property($key, $item, $model));
+            Array_Helper::each($raw_model, fn (mixed $item, string $key) => $this->set_mapped_property($key, $item, $model));
         } catch (TypeError $exception) {
             throw new Operation_Failed("Could not adapt to the model.", previous: $exception);
         } catch (Unknown_Registry_Item $exception) {

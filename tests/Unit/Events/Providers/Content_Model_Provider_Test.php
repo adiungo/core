@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Events\Providers;
 
-
 use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Events\Providers\Content_Model_Provider;
 use Adiungo\Tests\Test_Case;
@@ -11,7 +10,6 @@ use Mockery\MockInterface;
 
 class Content_Model_Provider_Test extends Test_Case
 {
-
     /**
      * @covers \Adiungo\Core\Events\Providers\Content_Model_Provider::get_model
      *
@@ -25,5 +23,4 @@ class Content_Model_Provider_Test extends Test_Case
 
         $this->assertSame($mock, $provider->get_model());
     }
-
 }

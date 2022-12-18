@@ -2,14 +2,12 @@
 
 namespace Adiungo\Core\Interfaces;
 
-
 namespace Adiungo\Core\Interfaces;
 
 use Adiungo\Core\Factories\Adapters\Data_Source_Adapter;
 
 interface Has_Data_Source_Adapter
 {
-
     /**
      * Gets the data source adapter.
      *
@@ -24,5 +22,4 @@ interface Has_Data_Source_Adapter
      * @return $this
      */
     public function set_data_source_adapter(Data_Source_Adapter $data_source_adapter): static;
-
 }

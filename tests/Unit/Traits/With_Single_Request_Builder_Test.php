@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Traits;
 
-
 use Adiungo\Core\Abstracts\Int_Id_Based_Request_Builder;
 use Adiungo\Core\Abstracts\String_Id_Based_Request_Builder;
 use Adiungo\Core\Traits\With_Single_Request_Builder;

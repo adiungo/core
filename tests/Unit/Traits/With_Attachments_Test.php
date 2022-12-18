@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Traits;
 
-
 use Adiungo\Core\Collections\Attachment_Collection;
 use Adiungo\Core\Interfaces\Attachment;
 use Adiungo\Core\Interfaces\Has_Attachments;
@@ -14,7 +13,6 @@ use Underpin\Exceptions\Operation_Failed;
 
 class With_Attachments_Test extends Test_Case
 {
-
     /**
      * @covers \Adiungo\Core\Traits\With_Attachments::get_attachments
      * @return void
@@ -26,7 +24,7 @@ class With_Attachments_Test extends Test_Case
 
     protected function get_instance(): Has_Attachments
     {
-        return new class implements Has_Attachments {
+        return new class () implements Has_Attachments {
             use With_Attachments;
         };
     }

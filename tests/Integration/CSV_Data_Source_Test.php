@@ -121,11 +121,11 @@ class CSV_Data_Source_Test extends Test_Case
             ->set_limit(1)
             ->set_csv("id,content,name\r1,\"the content\",alex\r2,\"more content\",stephen\r3,\"another content\",kate\r4,\"even more content\",kara");
 
-        $result = array_values($item->get_data()->each(fn(Test_Model $model) => $model->get_id()));
+        $result = array_values($item->get_data()->each(fn (Test_Model $model) => $model->get_id()));
 
         while ($item->has_more()) {
             $item = $item->get_next();
-            $result = array_values(array_merge($result, $item->get_data()->each(fn(Test_Model $model) => $model->get_id())));
+            $result = array_values(array_merge($result, $item->get_data()->each(fn (Test_Model $model) => $model->get_id())));
         }
 
         $this->assertSame($result, [1, 2, 3, 4]);

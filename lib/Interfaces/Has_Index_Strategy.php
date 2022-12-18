@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Interfaces;
 
-
 use Adiungo\Core\Factories\Index_Strategy;
 
 interface Has_Index_Strategy

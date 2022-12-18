@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Integration\Mocks;
 
-
 use Adiungo\Core\Interfaces\Has_Paginated_Request;
 use Underpin\Enums\Types;
 use Underpin\Exceptions\Operation_Failed;

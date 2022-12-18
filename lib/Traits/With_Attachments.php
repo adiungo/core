@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Traits;
 
-
 namespace Adiungo\Core\Traits;
 
 use Adiungo\Core\Collections\Attachment_Collection;
@@ -11,7 +10,6 @@ use Underpin\Exceptions\Operation_Failed;
 
 trait With_Attachments
 {
-
     protected Attachment_Collection $attachments;
 
     /**
@@ -74,5 +72,4 @@ trait With_Attachments
     {
         return !empty($this->get_attachments()->to_array());
     }
-
 }

@@ -2,14 +2,12 @@
 
 namespace Adiungo\Core\Traits;
 
-
 namespace Adiungo\Core\Traits;
 
 use DateTime;
 
 trait With_Published_Date
 {
-
     protected DateTime $published_date;
 
     /**
@@ -34,5 +32,4 @@ trait With_Published_Date
 
         return $this;
     }
-
 }

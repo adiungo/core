@@ -2,14 +2,12 @@
 
 namespace Adiungo\Core\Interfaces;
 
-
 use Adiungo\Core\Collections\Tag_Collection;
 use Adiungo\Core\Factories\Tag;
 use Underpin\Exceptions\Operation_Failed;
 
 interface Has_Tags
 {
-
     /**
      * Gets the tag collection
      *

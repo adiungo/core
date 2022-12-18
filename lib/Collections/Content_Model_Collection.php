@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Collections;
 
-
 use Adiungo\Core\Abstracts\Content_Model;
 use Underpin\Abstracts\Registries\Object_Registry;
 

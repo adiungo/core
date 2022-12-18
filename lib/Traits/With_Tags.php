@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Traits;
 
-
 namespace Adiungo\Core\Traits;
 
 use Adiungo\Core\Collections\Tag_Collection;
@@ -24,7 +23,7 @@ trait With_Tags
      */
     public function add_tags(Tag $tag, Tag ...$tags): static
     {
-        Array_Helper::each(func_get_args(), fn(Tag $tag) => $this->get_tags()->add((string)$tag->get_id(), $tag));
+        Array_Helper::each(func_get_args(), fn (Tag $tag) => $this->get_tags()->add((string)$tag->get_id(), $tag));
 
         return $this;
     }
@@ -68,7 +67,7 @@ trait With_Tags
      */
     public function import_tags(string $content, string ...$more_content): static
     {
-        Array_Helper::each(func_get_args(), fn(string $content) => $this->get_tags()->from_string($content));
+        Array_Helper::each(func_get_args(), fn (string $content) => $this->get_tags()->from_string($content));
 
         return $this;
     }

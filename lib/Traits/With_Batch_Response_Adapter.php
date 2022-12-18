@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Traits;
 
-
 use Adiungo\Core\Abstracts\Batch_Response_Adapter;
 
 trait With_Batch_Response_Adapter

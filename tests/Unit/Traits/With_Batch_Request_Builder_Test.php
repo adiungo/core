@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Traits;
 
-
 use Adiungo\Core\Interfaces\Has_Paginated_Request;
 use Adiungo\Core\Traits\With_Batch_Request_Builder;
 use Adiungo\Tests\Test_Case;

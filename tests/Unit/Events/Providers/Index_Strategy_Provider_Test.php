@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Events\Providers;
 
-
 use Adiungo\Core\Events\Providers\Index_Strategy_Provider;
 use Adiungo\Core\Factories\Index_Strategy;
 use Adiungo\Tests\Test_Case;
@@ -10,7 +9,6 @@ use Mockery;
 
 class Index_Strategy_Provider_Test extends Test_Case
 {
-
     /**
      * @covers \Adiungo\Core\Events\Providers\Index_Strategy_Provider::get_model
      *
@@ -23,5 +21,4 @@ class Index_Strategy_Provider_Test extends Test_Case
 
         $this->assertSame($mock, $provider->get_index_strategy());
     }
-
 }

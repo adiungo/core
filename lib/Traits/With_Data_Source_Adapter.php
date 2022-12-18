@@ -2,12 +2,10 @@
 
 namespace Adiungo\Core\Traits;
 
-
 use Adiungo\Core\Factories\Adapters\Data_Source_Adapter;
 
 trait With_Data_Source_Adapter
 {
-
     protected Data_Source_Adapter $data_source_adapter;
 
     /**
@@ -32,5 +30,4 @@ trait With_Data_Source_Adapter
 
         return $this;
     }
-
 }

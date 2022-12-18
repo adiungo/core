@@ -6,7 +6,6 @@ use DateTime;
 
 interface Has_Updated_Date
 {
-
     /**
      * Gets the updated date
      *

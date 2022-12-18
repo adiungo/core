@@ -4,7 +4,6 @@ namespace Adiungo\Core\Traits;
 
 trait With_Page
 {
-
     protected int $page;
 
     /**
@@ -29,5 +28,4 @@ trait With_Page
 
         return $this;
     }
-
 }

@@ -54,7 +54,7 @@ class CSV implements Data_Source, Has_Offset, Has_Limit, Has_Data_Source_Adapter
         $csv = $this->get_csv_instance();
         $csv->parse($this->csv, $this->get_offset(), $this->get_limit());
 
-        return (new Content_Model_Collection())->seed(Array_Helper::map($csv->data, fn(array $datum) => $this->get_data_source_adapter()->convert_to_model($datum)));
+        return (new Content_Model_Collection())->seed(Array_Helper::map($csv->data, fn (array $datum) => $this->get_data_source_adapter()->convert_to_model($datum)));
     }
 
     /**
@@ -64,7 +64,7 @@ class CSV implements Data_Source, Has_Offset, Has_Limit, Has_Data_Source_Adapter
      */
     protected function get_csv_instance(): CSV_Lib
     {
-        return $this->load_from_cache('csv_instance', fn() => new CSV_Lib());
+        return $this->load_from_cache('csv_instance', fn () => new CSV_Lib());
     }
 
     /**
@@ -94,7 +94,7 @@ class CSV implements Data_Source, Has_Offset, Has_Limit, Has_Data_Source_Adapter
      */
     public function get_item(int|string $id): Content_Model
     {
-        $column = array_keys($this->get_data_source_adapter()->get_mappings()->filter(fn(array $item) => $item['setter'] === 'set_id')->to_array());
+        $column = array_keys($this->get_data_source_adapter()->get_mappings()->filter(fn (array $item) => $item['setter'] === 'set_id')->to_array());
         if (empty($column)) {
             throw new Item_Not_Found("Could not find ID column in adapter. Did you remember to set the column mapping with get_id?");
         }

@@ -7,7 +7,6 @@ use Adiungo\Core\Collections\Content_Model_Collection;
 
 interface Data_Source
 {
-
     /**
      * Fetches the data for this source.
      *

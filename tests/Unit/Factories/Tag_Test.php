@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Factories;
 
-
 use Adiungo\Core\Factories\Tag;
 use Adiungo\Tests\Test_Case;
 use Generator;
@@ -10,7 +9,6 @@ use Underpin\Exceptions\Operation_Failed;
 
 class Tag_Test extends Test_Case
 {
-
     /**
      * @covers       \Adiungo\Core\Factories\Tag::from_string
      *
@@ -56,5 +54,4 @@ class Tag_Test extends Test_Case
         yield 'without camel case' => ['#Thishashtag', (new Tag())->set_name('Thishashtag')];
         yield 'with numbers' => ['#ThisHashtag234', (new Tag())->set_name('This Hashtag234')];
     }
-
 }

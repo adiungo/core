@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Unit\Factories\Adapters;
 
-
 use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Factories\Adapters\Data_Source_Adapter;
 use Adiungo\Tests\Test_Case;
@@ -151,5 +150,4 @@ class Data_Source_Adapter_Test extends Test_Case
         yield 'valid setter returns true' => [true, 'set_test_value'];
         yield 'invalid setter returns false' => [false, 'invalid'];
     }
-
 }

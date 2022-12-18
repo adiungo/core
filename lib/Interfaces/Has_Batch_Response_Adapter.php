@@ -2,14 +2,12 @@
 
 namespace Adiungo\Core\Interfaces;
 
-
 namespace Adiungo\Core\Interfaces;
 
 use Adiungo\Core\Abstracts\Batch_Response_Adapter;
 
 interface Has_Batch_Response_Adapter
 {
-
     /**
      * Gets the data source adapter.
      *
@@ -24,5 +22,4 @@ interface Has_Batch_Response_Adapter
      * @return $this
      */
     public function set_batch_response_adapter(Batch_Response_Adapter $batch_response_adapter): static;
-
 }
