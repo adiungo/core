@@ -13,7 +13,9 @@
     "readme": "README.md",
     "license": "MIT",
     "scripts": {
-        "php-cs-fixer": "php-cs-fixer fix"
+        "php-cs-fixer": "php-cs-fixer fix",
+        "phpstan": "vendor/bin/phpstan analyse lib tests --level=9",
+        "phpunit": " vendor/bin/phpunit --configuration=phpunit.xml"
     },
     "autoload": {
         "psr-4": {
@@ -44,5 +46,11 @@
     },
     "require-dev": {
         "adiungo/tests": "^0.1.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "phpstan/extension-installer": true
+        }
     }
 }
