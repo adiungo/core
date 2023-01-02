@@ -72,7 +72,7 @@ class Rest_Data_Source_Test extends Test_Case
     /**
      * Constructs a test model based on the provided ID.
      * @param int $id
-     * @param array|null $categories
+     * @param int[]|null $categories
      * @return Test_Model
      * @throws Operation_Failed
      */

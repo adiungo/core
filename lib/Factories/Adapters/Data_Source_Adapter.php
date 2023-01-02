@@ -50,7 +50,7 @@ class Data_Source_Adapter implements Has_Content_Model_Instance
      */
     public function get_mappings(): Registry
     {
-        return $this->load_from_cache('mappings', fn() => new Registry(fn($key, $value) => $this->mapping_is_valid($value['setter'], $value['type'])));
+        return $this->load_from_cache('mappings', fn () => new Registry(fn ($key, $value) => $this->mapping_is_valid($value['setter'], $value['type'])));
     }
 
     /**
@@ -80,7 +80,7 @@ class Data_Source_Adapter implements Has_Content_Model_Instance
         $model = new $model();
 
         try {
-            $this->get_mappings()->each(fn(array $mapping, string $key) => $this->set_mapped_property($key, $mapping['type'], $mapping['setter'], $raw_model, $model));
+            $this->get_mappings()->each(fn (array $mapping, string $key) => $this->set_mapped_property($key, $mapping['type'], $mapping['setter'], $raw_model, $model));
         } catch (TypeError $exception) {
             throw new Operation_Failed("Could not adapt to the model.", previous: $exception);
         } catch (Item_Not_Found $exception) {
