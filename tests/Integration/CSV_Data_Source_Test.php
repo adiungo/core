@@ -22,7 +22,7 @@ class CSV_Data_Source_Test extends Test_Case
     public function test_can_get_item(): void
     {
         $item = (new CSV())
-            ->set_data_source_adapter(new Test_Data_Source_Adapter())
+            ->set_data_source_adapter(new Test_Data_Source_Adapter(true))
             ->set_csv("id,content,name\r1,\"the content\",alex\r2,\"more content\",stephen")
             ->get_item(2);
 

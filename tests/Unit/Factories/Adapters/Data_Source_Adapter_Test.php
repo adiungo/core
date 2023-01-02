@@ -4,6 +4,7 @@ namespace Adiungo\Core\Tests\Unit\Factories\Adapters;
 
 use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Factories\Adapters\Data_Source_Adapter;
+use Adiungo\Core\Tests\Integration\Mocks\Test_Model;
 use Adiungo\Tests\Test_Case;
 use Adiungo\Tests\Traits\With_Inaccessible_Methods;
 use Closure;
@@ -11,6 +12,7 @@ use Generator;
 use Mockery;
 use ReflectionException;
 use Underpin\Enums\Types;
+use Underpin\Exceptions\Item_Not_Found;
 use Underpin\Exceptions\Operation_Failed;
 use Underpin\Factories\Registry;
 
@@ -22,6 +24,7 @@ class Data_Source_Adapter_Test extends Test_Case
      * @covers \Adiungo\Core\Factories\Data_Sources\CSV::convert_to_model
      *
      * @throws ReflectionException
+     * @throws Operation_Failed
      */
     public function test_can_convert_to_model(): void
     {
@@ -29,46 +32,48 @@ class Data_Source_Adapter_Test extends Test_Case
 
         Mockery::namedMock('Test_Mock', Content_Model::class);
 
-        $items = ['a' => 'set_a', 'b' => 'set_b', 'c' => 'set_c', 'd' => 'set_d'];
+        $items = [
+            'foo' => ['type' => Types::String, 'setter' => 'baz'],
+            'foofoo' => ['type' => Types::String, 'setter' => 'bazbaz'],
+        ];
 
-        $instance->expects('set_mapped_property')->times(count($items))->withArgs(function ($key, $item, $model) use ($items) {
-            if ("Test_Mock" instanceof $model) {
-                return false;
-            }
+        $raw = ['foo' => 'bar', 'foofoo' => 'barbar'];
 
-            return $items[$key] === $item;
-        });
+        $instance->expects('set_mapped_property')->times(count($items));
         $instance->allows('get_content_model_instance')->andReturn('Test_Mock');
-
-        $this->call_inaccessible_method($instance, 'convert_to_model', $items);
+        $instance->allows('get_mappings')->andReturn((new Registry(fn () => true))->seed($items));
+        $this->call_inaccessible_method($instance, 'convert_to_model', $raw);
     }
 
     /**
      * @covers       \Adiungo\Core\Factories\Data_Sources\CSV::set_mapped_property()
      *
      * @param mixed $expected
-     * @param mixed $value
-     * @param array{type:Types, setter:string} $mapping
+     * @param mixed[] $raw_model
+     * @param string $setter
+     * @param Types|Closure $type
+     * @param string $key
      * @throws ReflectionException
      * @dataProvider provider_set_mapped_property
      */
-    public function test_can_set_mapped_property(mixed $expected, mixed $value, array $mapping): void
+    public function test_can_set_mapped_property(mixed $expected, array $raw_model, string $setter, Types|Closure $type, string $key): void
     {
         $source = Mockery::mock(Data_Source_Adapter::class)->shouldAllowMockingProtectedMethods()->makePartial();
-        $source->allows('get_mappings->get')->with('key')->andReturn($mapping);
 
         $model = Mockery::mock(Content_Model::class);
-        $model->expects($mapping['setter'])->with($expected)->andReturn($model);
+        $model->expects($setter)->with($expected)->andReturn($model);
 
-        $this->call_inaccessible_method($source, 'set_mapped_property', 'key', $value, $model);
+        $this->call_inaccessible_method($source, 'set_mapped_property', $key, $type, $setter, $raw_model, $model);
     }
 
     public function provider_set_mapped_property(): Generator
     {
-        yield 'it converts types' => [6, '6', ['setter' => 'set_int', 'type' => Types::Integer]];
-        yield 'it sets values' => ['alex', 'alex', ['setter' => 'set_name', 'type' => Types::String]];
-        yield 'it converts types with closures' => [1000, '6', ['setter' => 'set_int', 'type' => fn () => 1000]];
-        yield 'it sets values with closures' => ['Alex', 'alex', ['setter' => 'set_name', 'type' => fn () => 'Alex']];
+        yield 'it converts types' => [6, ['key' => '6'], 'set_int', Types::Integer, 'key'];
+        yield 'it sets values' => ['alex', ['key' => 'alex'], 'set_name', Types::String, 'key'];
+        yield 'it sets dotted values' => [6, ['key' => ['subkey' => ['int' => 6]]], 'set_name', Types::Integer, 'key.subkey.int'];
+        yield 'it converts types with closures' => [1000, ['key' => '6'], 'set_int', fn () => 1000, 'key'];
+        yield 'it sets values with closures' => ['Alex', ['key' => 'alex'], 'set_name', fn () => 'Alex', 'key'];
+        yield 'it sets dotted values with closures' => ['AleX', ['key' => ['subkey' => 'alex']], 'set_name', fn () => 'AleX', 'key.subkey'];
     }
 
     /**

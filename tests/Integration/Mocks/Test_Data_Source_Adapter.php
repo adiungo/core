@@ -2,7 +2,6 @@
 
 namespace Adiungo\Core\Tests\Integration\Mocks;
 
-use Adiungo\Core\Collections\Category_Collection;
 use Adiungo\Core\Factories\Adapters\Data_Source_Adapter;
 use Adiungo\Core\Factories\Category;
 use Underpin\Enums\Types;
@@ -10,10 +9,10 @@ use Underpin\Helpers\Array_Helper;
 
 class Test_Data_Source_Adapter extends Data_Source_Adapter
 {
-    public function __construct()
+    public function __construct(bool $is_csv = false)
     {
         $this->set_content_model_instance(Test_Model::class)
-            ->map_field('content', 'set_content', Types::String)
+            ->map_field($is_csv ? 'content' : 'content.rendered', 'set_content', Types::String)
             ->map_field('name', 'set_name', Types::String)
             ->map_field(
                 'categories',

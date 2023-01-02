@@ -2,31 +2,31 @@
     "found_items": 5,
     "items": [
         {
-            "content": "This is item 6 content",
+            "content": {"rendered":  "This is item 6 content"},
             "categories": ["6","7"],
             "name": "This is item 6",
             "id": 6
         },
         {
-            "content": "This is item 7 content",
+            "content": {"rendered":  "This is item 7 content"},
             "categories": ["7","8"],
             "name": "This is item 7",
             "id": 7
         },
         {
-            "content": "This is item 8 content",
+            "content": {"rendered":  "This is item 8 content"},
             "categories": ["8","9"],
             "name": "This is item 8",
             "id": 8
         },
         {
-            "content": "This is item 9 content",
+            "content": {"rendered":  "This is item 9 content"},
             "categories": ["9","10"],
             "name": "This is item 9",
             "id": 9
         },
         {
-            "content": "This is item 10 content",
+            "content": {"rendered":  "This is item 10 content"},
             "categories": ["10","11"],
             "name": "This is item 10",
             "id": 10
