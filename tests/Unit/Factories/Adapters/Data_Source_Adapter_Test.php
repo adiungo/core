@@ -41,7 +41,7 @@ class Data_Source_Adapter_Test extends Test_Case
 
         $instance->expects('set_mapped_property')->times(count($items));
         $instance->allows('get_content_model_instance')->andReturn('Test_Mock');
-        $instance->allows('get_mappings')->andReturn((new Registry(fn() => true))->seed($items));
+        $instance->allows('get_mappings')->andReturn((new Registry(fn () => true))->seed($items));
         $this->call_inaccessible_method($instance, 'convert_to_model', $raw);
     }
 
@@ -49,7 +49,7 @@ class Data_Source_Adapter_Test extends Test_Case
      * @covers       \Adiungo\Core\Factories\Data_Sources\CSV::set_mapped_property()
      *
      * @param mixed $expected
-     * @param array $raw_model
+     * @param mixed[] $raw_model
      * @param string $setter
      * @param Types|Closure $type
      * @param string $key
@@ -71,9 +71,9 @@ class Data_Source_Adapter_Test extends Test_Case
         yield 'it converts types' => [6, ['key' => '6'], 'set_int', Types::Integer, 'key'];
         yield 'it sets values' => ['alex', ['key' => 'alex'], 'set_name', Types::String, 'key'];
         yield 'it sets dotted values' => [6, ['key' => ['subkey' => ['int' => 6]]], 'set_name', Types::Integer, 'key.subkey.int'];
-        yield 'it converts types with closures' => [1000, ['key' => '6'], 'set_int', fn() => 1000, 'key'];
-        yield 'it sets values with closures' => ['Alex', ['key' => 'alex'], 'set_name', fn() => 'Alex', 'key'];
-        yield 'it sets dotted values with closures' => ['AleX', ['key' => ['subkey' => 'alex']], 'set_name', fn() => 'AleX', 'key.subkey'];
+        yield 'it converts types with closures' => [1000, ['key' => '6'], 'set_int', fn () => 1000, 'key'];
+        yield 'it sets values with closures' => ['Alex', ['key' => 'alex'], 'set_name', fn () => 'Alex', 'key'];
+        yield 'it sets dotted values with closures' => ['AleX', ['key' => ['subkey' => 'alex']], 'set_name', fn () => 'AleX', 'key.subkey'];
     }
 
     /**
@@ -156,7 +156,7 @@ class Data_Source_Adapter_Test extends Test_Case
     /** @see test_can_map_field */
     public function provider_map_field(): Generator
     {
-        yield 'supports closure' => [fn() => 'test'];
+        yield 'supports closure' => [fn () => 'test'];
         yield 'supports type' => [Types::String];
     }
 
@@ -165,7 +165,7 @@ class Data_Source_Adapter_Test extends Test_Case
     {
         yield 'valid setter returns true with Type' => [true, 'set_test_value', Types::String];
         yield 'valid setter returns false with Type and invalid setter.' => [false, 'invalid', Types::String];
-        yield 'invalid setter returns true with closure' => [true, 'set_test_value', fn() => 'foo'];
-        yield 'invalid setter returns false with closure and invalid setter.' => [false, 'invalid', fn() => 'foo'];
+        yield 'invalid setter returns true with closure' => [true, 'set_test_value', fn () => 'foo'];
+        yield 'invalid setter returns false with closure and invalid setter.' => [false, 'invalid', fn () => 'foo'];
     }
 }
