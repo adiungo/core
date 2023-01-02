@@ -54,7 +54,7 @@ class Rest_Data_Source_Test extends Test_Case
         $request = (new Request())
             ->set_url(Url::from('https://example.org/batch'))
             ->set_method(Method::Get)
-            ->set_param((new Param('page', Types::Integer))->set_value(1));
+            ->set_param((new Param('page', Types::Integer))->set_value(3));
 
         $this->instance->get_batch_request_builder()->set_request($request);
 
@@ -64,6 +64,7 @@ class Rest_Data_Source_Test extends Test_Case
             $this->build_model(3),
             $this->build_model(4),
             $this->build_model(5),
+            $this->build_model(6, []),
 
         ]), $this->instance->get_data());
     }
@@ -71,17 +72,27 @@ class Rest_Data_Source_Test extends Test_Case
     /**
      * Constructs a test model based on the provided ID.
      * @param int $id
+     * @param int[]|null $categories
      * @return Test_Model
      * @throws Operation_Failed
      */
-    protected function build_model(int $id): Test_Model
+    protected function build_model(int $id, ?array $categories = null): Test_Model
     {
-        return (new Test_Model())
+        $result = (new Test_Model())
             ->set_id($id)
             ->set_content("This is item $id content")
-            ->add_categories((new Category())->set_id((string) $id))
-            ->add_categories((new Category())->set_id((string) ($id + 1)))
             ->set_name("This is item $id");
+
+        if (is_array($categories)) {
+            foreach ($categories as $category) {
+                $result->add_categories((new Category())->set_id((string)$category));
+            }
+        } else {
+            $result->add_categories((new Category())->set_id((string)$id))
+                   ->add_categories((new Category())->set_id((string)($id + 1)));
+        }
+
+        return $result;
     }
 
     /**

@@ -1,0 +1,42 @@
+{
+    "found_items": 5,
+    "items": [
+        {
+            "content": {"rendered":  "This is item 1 content"},
+            "categories": ["1","2"],
+            "name": "This is item 1",
+            "id": 1
+        },
+        {
+            "content": {"rendered":  "This is item 2 content"},
+            "not_used": "This value is not used, and should be ignored by the process.",
+            "categories": ["2","3"],
+            "name": "This is item 2",
+            "id": 2
+        },
+        {
+            "content": {"rendered":  "This is item 3 content"},
+            "categories": ["3","4"],
+            "name": "This is item 3",
+            "id": 3
+        },
+        {
+            "content": {"rendered":  "This is item 4 content"},
+            "categories": ["4","5"],
+            "name": "This is item 4",
+            "id": 4
+        },
+        {
+            "content": {"rendered":  "This is item 5 content"},
+            "categories": ["5","6"],
+            "name": "This is item 5",
+            "id": 5
+        },
+        {
+            "content": {"rendered":  "This is item 6 content"},
+            "categories": [],
+            "name": "This is item 6",
+            "id": 6
+        }
+    ]
+}

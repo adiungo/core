@@ -112,6 +112,11 @@ class Data_Source_Adapter implements Has_Content_Model_Instance
 
         if ($type instanceof Closure) {
             $item = $type($item);
+
+            if (is_array($item) && empty($item)) {
+                return;
+            }
+
             $model->{$setter}(...Array_Helper::wrap($item));
         } else {
             settype($item, $type->value);
