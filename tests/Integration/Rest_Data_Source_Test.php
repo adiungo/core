@@ -3,6 +3,7 @@
 namespace Adiungo\Core\Tests\Integration;
 
 use Adiungo\Core\Collections\Content_Model_Collection;
+use Adiungo\Core\Factories\Category;
 use Adiungo\Core\Factories\Data_Sources\Rest;
 use Adiungo\Core\Tests\Integration\Mocks\Batch_Request_Builder;
 use Adiungo\Core\Tests\Integration\Mocks\Batch_Response_Adapter_Mock;
@@ -71,12 +72,15 @@ class Rest_Data_Source_Test extends Test_Case
      * Constructs a test model based on the provided ID.
      * @param int $id
      * @return Test_Model
+     * @throws Operation_Failed
      */
     protected function build_model(int $id): Test_Model
     {
         return (new Test_Model())
             ->set_id($id)
             ->set_content("This is item $id content")
+            ->add_categories((new Category())->set_id($id))
+            ->add_categories((new Category())->set_id($id + 1))
             ->set_name("This is item $id");
     }
 

@@ -6,6 +6,7 @@ use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Factories\Adapters\Data_Source_Adapter;
 use Adiungo\Tests\Test_Case;
 use Adiungo\Tests\Traits\With_Inaccessible_Methods;
+use Closure;
 use Generator;
 use Mockery;
 use ReflectionException;
@@ -66,6 +67,8 @@ class Data_Source_Adapter_Test extends Test_Case
     {
         yield 'it converts types' => [6, '6', ['setter' => 'set_int', 'type' => Types::Integer]];
         yield 'it sets values' => ['alex', 'alex', ['setter' => 'set_name', 'type' => Types::String]];
+        yield 'it converts types with closures' => [1000, '6', ['setter' => 'set_int', 'type' => fn() => 1000]];
+        yield 'it sets values with closures' => ['Alex', 'alex', ['setter' => 'set_name', 'type' => fn() => 'Alex']];
     }
 
     /**
@@ -74,7 +77,7 @@ class Data_Source_Adapter_Test extends Test_Case
      * @throws ReflectionException
      * @dataProvider provider_mapping_is_valid
      */
-    public function test_mapping_is_valid(bool $expected, string $setter): void
+    public function test_mapping_is_valid(bool $expected, string $setter, Types|Closure $type): void
     {
         $mock = new class () extends Content_Model {
             public function get_id(): string|int|null
@@ -91,7 +94,7 @@ class Data_Source_Adapter_Test extends Test_Case
         $instance = Mockery::mock(Data_Source_Adapter::class);
         $instance->allows('get_content_model_instance')->andReturn($mock::class);
 
-        $this->assertSame($expected, $this->call_inaccessible_method($instance, 'mapping_is_valid', $setter, Types::String));
+        $this->assertSame($expected, $this->call_inaccessible_method($instance, 'mapping_is_valid', $setter, $type));
     }
 
     /**
@@ -113,7 +116,7 @@ class Data_Source_Adapter_Test extends Test_Case
      * @return void
      * @throws Operation_Failed
      */
-    public function test_can_map_field_catches_thrown_exceptions(): void
+    public function test_map_field_catches_thrown_exceptions(): void
     {
         $instance = Mockery::mock(Data_Source_Adapter::class)->makePartial()->shouldAllowMockingProtectedMethods();
         $column = 'foo';
@@ -129,25 +132,35 @@ class Data_Source_Adapter_Test extends Test_Case
     }
 
     /**
-     * @covers \Adiungo\Core\Factories\Data_Sources\CSV::map_field
+     * @covers       \Adiungo\Core\Factories\Data_Sources\CSV::map_field
+     * @param Types|Closure $type
      * @return void
      * @throws Operation_Failed
+     * @dataProvider provider_map_field
      */
-    public function test_can_map_field(): void
+    public function test_can_map_field(Types|Closure $type): void
     {
         $instance = Mockery::mock(Data_Source_Adapter::class)->makePartial()->shouldAllowMockingProtectedMethods();
         $column = 'foo';
         $setter = 'bar';
-        $type = Types::String;
         $instance->expects('get_mappings->add')->with($column, ['setter' => $setter, 'type' => $type]);
 
         $this->assertSame($instance, $instance->map_field($column, $setter, $type));
     }
 
+    /** @see test_can_map_field */
+    public function provider_map_field(): Generator
+    {
+        yield 'supports closure' => [fn() => 'test'];
+        yield 'supports type' => [Types::String];
+    }
+
     /** @see test_mapping_is_valid */
     protected function provider_mapping_is_valid(): Generator
     {
-        yield 'valid setter returns true' => [true, 'set_test_value'];
-        yield 'invalid setter returns false' => [false, 'invalid'];
+        yield 'valid setter returns true with Type' => [true, 'set_test_value', Types::String];
+        yield 'valid setter returns false with Type and invalid setter.' => [false, 'invalid', Types::String];
+        yield 'invalid setter returns true with closure' => [true, 'set_test_value', fn() => 'foo'];
+        yield 'invalid setter returns false with closure and invalid setter.' => [false, 'invalid', fn() => 'foo'];
     }
 }
