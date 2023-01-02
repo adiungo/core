@@ -148,3 +148,4 @@ vendor
 
 ### Spellcheck ###
 dictionary.dic
+/.idea/**
