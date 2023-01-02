@@ -48,7 +48,7 @@ class Data_Source_Adapter implements Has_Content_Model_Instance
      */
     public function get_mappings(): Registry
     {
-        return $this->load_from_cache('mappings', fn() => new Registry(fn($key, $value) => $this->mapping_is_valid($value['setter'], $value['type'])));
+        return $this->load_from_cache('mappings', fn () => new Registry(fn ($key, $value) => $this->mapping_is_valid($value['setter'], $value['type'])));
     }
 
     /**
@@ -60,7 +60,7 @@ class Data_Source_Adapter implements Has_Content_Model_Instance
      */
     protected function mapping_is_valid(string $setter, Types|Closure $type): bool
     {
-        return method_exists($this->get_content_model_instance(), $setter) && ($type instanceof Types || $type instanceof Closure);
+        return method_exists($this->get_content_model_instance(), $setter);
     }
 
     /**
@@ -78,7 +78,7 @@ class Data_Source_Adapter implements Has_Content_Model_Instance
         $model = new $model();
 
         try {
-            Array_Helper::each($raw_model, fn(mixed $item, string $key) => $this->set_mapped_property($key, $item, $model));
+            Array_Helper::each($raw_model, fn (mixed $item, string $key) => $this->set_mapped_property($key, $item, $model));
         } catch (TypeError $exception) {
             throw new Operation_Failed("Could not adapt to the model.", previous: $exception);
         } catch (Unknown_Registry_Item $exception) {
@@ -97,7 +97,7 @@ class Data_Source_Adapter implements Has_Content_Model_Instance
      */
     protected function set_mapped_property(string $key, mixed $item, Content_Model $model): void
     {
-        /** @var array{type:Types, setter:string} $mapping */
+        /** @var array{type:Types|Closure, setter:string} $mapping */
         $mapping = $this->get_mappings()->get($key);
 
         if ($mapping['type'] instanceof Closure) {

@@ -67,8 +67,8 @@ class Data_Source_Adapter_Test extends Test_Case
     {
         yield 'it converts types' => [6, '6', ['setter' => 'set_int', 'type' => Types::Integer]];
         yield 'it sets values' => ['alex', 'alex', ['setter' => 'set_name', 'type' => Types::String]];
-        yield 'it converts types with closures' => [1000, '6', ['setter' => 'set_int', 'type' => fn() => 1000]];
-        yield 'it sets values with closures' => ['Alex', 'alex', ['setter' => 'set_name', 'type' => fn() => 'Alex']];
+        yield 'it converts types with closures' => [1000, '6', ['setter' => 'set_int', 'type' => fn () => 1000]];
+        yield 'it sets values with closures' => ['Alex', 'alex', ['setter' => 'set_name', 'type' => fn () => 'Alex']];
     }
 
     /**
@@ -151,7 +151,7 @@ class Data_Source_Adapter_Test extends Test_Case
     /** @see test_can_map_field */
     public function provider_map_field(): Generator
     {
-        yield 'supports closure' => [fn() => 'test'];
+        yield 'supports closure' => [fn () => 'test'];
         yield 'supports type' => [Types::String];
     }
 
@@ -160,7 +160,7 @@ class Data_Source_Adapter_Test extends Test_Case
     {
         yield 'valid setter returns true with Type' => [true, 'set_test_value', Types::String];
         yield 'valid setter returns false with Type and invalid setter.' => [false, 'invalid', Types::String];
-        yield 'invalid setter returns true with closure' => [true, 'set_test_value', fn() => 'foo'];
-        yield 'invalid setter returns false with closure and invalid setter.' => [false, 'invalid', fn() => 'foo'];
+        yield 'invalid setter returns true with closure' => [true, 'set_test_value', fn () => 'foo'];
+        yield 'invalid setter returns false with closure and invalid setter.' => [false, 'invalid', fn () => 'foo'];
     }
 }

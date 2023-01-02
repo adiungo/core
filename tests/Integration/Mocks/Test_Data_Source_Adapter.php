@@ -16,8 +16,9 @@ class Test_Data_Source_Adapter extends Data_Source_Adapter
             ->map_field('content', 'set_content', Types::String)
             ->map_field('name', 'set_name', Types::String)
             ->map_field(
-                'categories', 'add_categories',
-                fn(array $categories) => Array_Helper::map($categories, fn(int $category) => (new Category())->set_id($category))
+                'categories',
+                'add_categories',
+                fn (array $categories) => Array_Helper::map($categories, fn (string|null $category) => (new Category())->set_id($category))
             )
             ->map_field('id', 'set_id', Types::Integer);
     }

@@ -79,8 +79,8 @@ class Rest_Data_Source_Test extends Test_Case
         return (new Test_Model())
             ->set_id($id)
             ->set_content("This is item $id content")
-            ->add_categories((new Category())->set_id($id))
-            ->add_categories((new Category())->set_id($id + 1))
+            ->add_categories((new Category())->set_id((string) $id))
+            ->add_categories((new Category())->set_id((string) ($id + 1)))
             ->set_name("This is item $id");
     }
 
