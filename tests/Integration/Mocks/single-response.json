@@ -1,5 +1,6 @@
 {
-    "content": "This is item 5 content",
+    "content": {"rendered": "This is item 5 content"},
+    "invalid": "Should be ignored!",
     "name": "This is item 5",
     "categories": [5,6],
     "id": 5

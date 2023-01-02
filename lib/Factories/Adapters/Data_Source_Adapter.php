@@ -8,10 +8,12 @@ use Adiungo\Core\Traits\With_Content_Model_Instance;
 use Closure;
 use TypeError;
 use Underpin\Enums\Types;
+use Underpin\Exceptions\Item_Not_Found;
 use Underpin\Exceptions\Operation_Failed;
 use Underpin\Exceptions\Unknown_Registry_Item;
 use Underpin\Factories\Registry;
 use Underpin\Helpers\Array_Helper;
+use Underpin\Helpers\String_Helper;
 use Underpin\Traits\With_Object_Cache;
 
 class Data_Source_Adapter implements Has_Content_Model_Instance
@@ -48,7 +50,7 @@ class Data_Source_Adapter implements Has_Content_Model_Instance
      */
     public function get_mappings(): Registry
     {
-        return $this->load_from_cache('mappings', fn () => new Registry(fn ($key, $value) => $this->mapping_is_valid($value['setter'], $value['type'])));
+        return $this->load_from_cache('mappings', fn() => new Registry(fn($key, $value) => $this->mapping_is_valid($value['setter'], $value['type'])));
     }
 
     /**
@@ -78,10 +80,11 @@ class Data_Source_Adapter implements Has_Content_Model_Instance
         $model = new $model();
 
         try {
-            Array_Helper::each($raw_model, fn (mixed $item, string $key) => $this->set_mapped_property($key, $item, $model));
+            /** @var array{type:Types|Closure, setter:string} $mapping */
+            $this->get_mappings()->each(fn(array $mapping, string $key) => $this->set_mapped_property($key, $mapping['type'], $mapping['setter'], $raw_model, $model));
         } catch (TypeError $exception) {
             throw new Operation_Failed("Could not adapt to the model.", previous: $exception);
-        } catch (Unknown_Registry_Item $exception) {
+        } catch (Item_Not_Found $exception) {
             throw new Operation_Failed("Could not adapt to the model because the mapped property was not set.", previous: $exception);
         }
 
@@ -90,22 +93,30 @@ class Data_Source_Adapter implements Has_Content_Model_Instance
 
     /**
      * @param string $key
-     * @param mixed $item
+     * @param Types|Closure $type
+     * @param string $setter
+     * @param array $raw_model
      * @param Content_Model $model
      * @return void
-     * @throws Unknown_Registry_Item
+     * @throws Item_Not_Found
      */
-    protected function set_mapped_property(string $key, mixed $item, Content_Model $model): void
+    protected function set_mapped_property(string $key, Types|Closure $type, string $setter, array $raw_model, Content_Model $model): void
     {
-        /** @var array{type:Types|Closure, setter:string} $mapping */
-        $mapping = $this->get_mappings()->get($key);
+        if (str_contains($key, '.')) {
+            $item = Array_Helper::dot($raw_model, $key);
+        } elseif(isset($raw_model[$key])){
+            $item = $raw_model[$key];
+        }else{
+            // Bail. This key is not in the raw model.
+            return;
+        }
 
-        if ($mapping['type'] instanceof Closure) {
-            $item = $mapping['type']($item);
-            $model->{$mapping['setter']}(...Array_Helper::wrap($item));
+        if ($type instanceof Closure) {
+            $item = $type($item);
+            $model->{$setter}(...Array_Helper::wrap($item));
         } else {
-            settype($item, $mapping['type']->value);
-            $model->{$mapping['setter']}($item);
+            settype($item, $type->value);
+            $model->{$setter}($item);
         }
     }
 }
