@@ -44,5 +44,11 @@
     },
     "require-dev": {
         "adiungo/tests": "^0.1.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "phpstan/extension-installer": true
+        }
     }
 }
