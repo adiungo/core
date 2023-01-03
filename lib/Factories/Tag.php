@@ -2,6 +2,7 @@
 
 namespace Adiungo\Core\Factories;
 
+use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Interfaces\Has_Name;
 use Adiungo\Core\Traits\With_Name;
 use Underpin\Exceptions\Operation_Failed;
@@ -10,7 +11,7 @@ use Underpin\Interfaces\Can_Convert_To_String;
 use Underpin\Interfaces\Identifiable_String;
 use Underpin\Traits\With_String_Identity;
 
-class Tag implements Identifiable_String, Has_Name, Can_Convert_To_String
+class Tag extends Content_Model implements Identifiable_String, Has_Name, Can_Convert_To_String
 {
     use With_String_Identity;
     use With_Name;

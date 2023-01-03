@@ -2,6 +2,7 @@
 
 namespace Adiungo\Core\Interfaces;
 
+use Adiungo\Core\Abstracts\Attachment;
 use Adiungo\Core\Collections\Attachment_Collection;
 use Underpin\Exceptions\Operation_Failed;
 
