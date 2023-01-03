@@ -49,7 +49,7 @@ class Content_Model_Bind_Event_Test extends Test_Case
         $action = 'delete';
         $callback = fn () => '';
 
-        $instance->allows('get_broadcaster_key')->with($model, $model_b, $action)->andReturn('foo');
+        $instance->allows('get_broadcaster_key')->with($model::class, $model_b::class, $action)->andReturn('foo');
         $instance->expects('get_broadcaster->attach')->with('foo', $callback);
 
         $instance->attach($model::class, $model_b::class, $action, $callback);
@@ -72,7 +72,7 @@ class Content_Model_Bind_Event_Test extends Test_Case
         $action = 'delete';
         $callback = fn () => '';
 
-        $instance->allows('get_broadcaster_key')->with($model, $model_b, $action)->andReturn('foo');
+        $instance->allows('get_broadcaster_key')->with($model::class, $model_b::class, $action)->andReturn('foo');
         $instance->expects('get_broadcaster->detach')->with('foo', $callback);
 
         $instance->detach($model::class, $model_b::class, $action, $callback);
