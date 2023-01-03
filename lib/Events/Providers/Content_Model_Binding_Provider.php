@@ -19,7 +19,7 @@ class Content_Model_Binding_Provider implements Data_Provider
     {
         try {
             $this->models = (new Content_Model_Collection())->seed([$model_a, $model_b]);
-        }catch (Operation_Failed $exception){
+        } catch (Operation_Failed $exception) {
         }
     }
 
