@@ -4,15 +4,12 @@ namespace Adiungo\Core\Tests\Unit\Factories\Adapters;
 
 use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Factories\Adapters\Data_Source_Adapter;
-use Adiungo\Core\Tests\Integration\Mocks\Test_Model;
 use Adiungo\Tests\Test_Case;
 use Adiungo\Tests\Traits\With_Inaccessible_Methods;
-use Closure;
 use Generator;
 use Mockery;
 use ReflectionException;
 use Underpin\Enums\Types;
-use Underpin\Exceptions\Item_Not_Found;
 use Underpin\Exceptions\Operation_Failed;
 use Underpin\Factories\Registry;
 
@@ -51,12 +48,12 @@ class Data_Source_Adapter_Test extends Test_Case
      * @param mixed $expected
      * @param mixed[] $raw_model
      * @param string $setter
-     * @param Types|Closure $type
+     * @param Types|callable $type
      * @param string $key
      * @throws ReflectionException
      * @dataProvider provider_set_mapped_property
      */
-    public function test_can_set_mapped_property(mixed $expected, array $raw_model, string $setter, Types|Closure $type, string $key): void
+    public function test_can_set_mapped_property(mixed $expected, array $raw_model, string $setter, Types|callable $type, string $key): void
     {
         $source = Mockery::mock(Data_Source_Adapter::class)->shouldAllowMockingProtectedMethods()->makePartial();
 
@@ -71,9 +68,9 @@ class Data_Source_Adapter_Test extends Test_Case
         yield 'it converts types' => [6, ['key' => '6'], 'set_int', Types::Integer, 'key'];
         yield 'it sets values' => ['alex', ['key' => 'alex'], 'set_name', Types::String, 'key'];
         yield 'it sets dotted values' => [6, ['key' => ['subkey' => ['int' => 6]]], 'set_name', Types::Integer, 'key.subkey.int'];
-        yield 'it converts types with closures' => [1000, ['key' => '6'], 'set_int', fn () => 1000, 'key'];
-        yield 'it sets values with closures' => ['Alex', ['key' => 'alex'], 'set_name', fn () => 'Alex', 'key'];
-        yield 'it sets dotted values with closures' => ['AleX', ['key' => ['subkey' => 'alex']], 'set_name', fn () => 'AleX', 'key.subkey'];
+        yield 'it converts types with callables' => [1000, ['key' => '6'], 'set_int', fn () => 1000, 'key'];
+        yield 'it sets values with callables' => ['Alex', ['key' => 'alex'], 'set_name', fn () => 'Alex', 'key'];
+        yield 'it sets dotted values with callables' => ['AleX', ['key' => ['subkey' => 'alex']], 'set_name', fn () => 'AleX', 'key.subkey'];
     }
 
     /**
@@ -82,7 +79,7 @@ class Data_Source_Adapter_Test extends Test_Case
      * @throws ReflectionException
      * @dataProvider provider_mapping_is_valid
      */
-    public function test_mapping_is_valid(bool $expected, string $setter, Types|Closure $type): void
+    public function test_mapping_is_valid(bool $expected, string $setter, Types|callable $type): void
     {
         $mock = new class () extends Content_Model {
             public function get_id(): string|int|null
@@ -138,12 +135,12 @@ class Data_Source_Adapter_Test extends Test_Case
 
     /**
      * @covers       \Adiungo\Core\Factories\Data_Sources\CSV::map_field
-     * @param Types|Closure $type
+     * @param Types|callable $type
      * @return void
      * @throws Operation_Failed
      * @dataProvider provider_map_field
      */
-    public function test_can_map_field(Types|Closure $type): void
+    public function test_can_map_field(Types|callable $type): void
     {
         $instance = Mockery::mock(Data_Source_Adapter::class)->makePartial()->shouldAllowMockingProtectedMethods();
         $column = 'foo';
@@ -156,7 +153,7 @@ class Data_Source_Adapter_Test extends Test_Case
     /** @see test_can_map_field */
     public function provider_map_field(): Generator
     {
-        yield 'supports closure' => [fn () => 'test'];
+        yield 'supports callable' => [fn () => 'test'];
         yield 'supports type' => [Types::String];
     }
 
@@ -165,7 +162,7 @@ class Data_Source_Adapter_Test extends Test_Case
     {
         yield 'valid setter returns true with Type' => [true, 'set_test_value', Types::String];
         yield 'valid setter returns false with Type and invalid setter.' => [false, 'invalid', Types::String];
-        yield 'invalid setter returns true with closure' => [true, 'set_test_value', fn () => 'foo'];
-        yield 'invalid setter returns false with closure and invalid setter.' => [false, 'invalid', fn () => 'foo'];
+        yield 'invalid setter returns true with callable' => [true, 'set_test_value', fn () => 'foo'];
+        yield 'invalid setter returns false with callable and invalid setter.' => [false, 'invalid', fn () => 'foo'];
     }
 }
