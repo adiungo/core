@@ -5,15 +5,12 @@ namespace Adiungo\Core\Factories\Adapters;
 use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Interfaces\Has_Content_Model_Instance;
 use Adiungo\Core\Traits\With_Content_Model_Instance;
-use Closure;
 use TypeError;
 use Underpin\Enums\Types;
 use Underpin\Exceptions\Item_Not_Found;
 use Underpin\Exceptions\Operation_Failed;
-use Underpin\Exceptions\Unknown_Registry_Item;
 use Underpin\Factories\Registry;
 use Underpin\Helpers\Array_Helper;
-use Underpin\Helpers\String_Helper;
 use Underpin\Traits\With_Object_Cache;
 
 class Data_Source_Adapter implements Has_Content_Model_Instance
@@ -26,12 +23,12 @@ class Data_Source_Adapter implements Has_Content_Model_Instance
      *
      * @param string $column The CSV column name
      * @param string $model_setter The setter function that should be called on the model.
-     * @param Types|Closure $type The PHP type that the column should be set to before setting on the model, or a
+     * @param Types|callable $type The PHP type that the column should be set to before setting on the model, or a
      * callback that casts the type.
      * @return static
      * @throws Operation_Failed
      */
-    public function map_field(string $column, string $model_setter, Types|Closure $type): static
+    public function map_field(string $column, string $model_setter, Types|callable $type): static
     {
         try {
             $this->get_mappings()->add($column, ['setter' => $model_setter, 'type' => $type]);
@@ -57,10 +54,10 @@ class Data_Source_Adapter implements Has_Content_Model_Instance
      * Returns true if the provided mapping is valid
      *
      * @param string $setter The setter method to call on the model
-     * @param Types|Closure $type The type to set.
+     * @param Types|callable $type The type to set.
      * @return bool
      */
-    protected function mapping_is_valid(string $setter, Types|Closure $type): bool
+    protected function mapping_is_valid(string $setter, Types|callable $type): bool
     {
         return method_exists($this->get_content_model_instance(), $setter);
     }
@@ -92,14 +89,14 @@ class Data_Source_Adapter implements Has_Content_Model_Instance
 
     /**
      * @param string $key
-     * @param Types|Closure $type
+     * @param Types|callable $type
      * @param string $setter
      * @param mixed[] $raw_model
      * @param Content_Model $model
      * @return void
      * @throws Item_Not_Found
      */
-    protected function set_mapped_property(string $key, Types|Closure $type, string $setter, array $raw_model, Content_Model $model): void
+    protected function set_mapped_property(string $key, Types|callable $type, string $setter, array $raw_model, Content_Model $model): void
     {
         if (str_contains($key, '.')) {
             $item = Array_Helper::dot($raw_model, $key);
@@ -110,7 +107,7 @@ class Data_Source_Adapter implements Has_Content_Model_Instance
             return;
         }
 
-        if ($type instanceof Closure) {
+        if (is_callable($type)) {
             $item = $type($item);
 
             if (is_array($item) && empty($item)) {
