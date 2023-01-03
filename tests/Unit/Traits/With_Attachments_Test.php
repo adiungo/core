@@ -3,7 +3,7 @@
 namespace Adiungo\Core\Tests\Unit\Traits;
 
 use Adiungo\Core\Collections\Attachment_Collection;
-use Adiungo\Core\Interfaces\Attachment;
+use Adiungo\Core\Abstracts\Attachment;
 use Adiungo\Core\Interfaces\Has_Attachments;
 use Adiungo\Core\Traits\With_Attachments;
 use Adiungo\Tests\Test_Case;

@@ -5,7 +5,7 @@ namespace Adiungo\Core\Traits;
 namespace Adiungo\Core\Traits;
 
 use Adiungo\Core\Collections\Attachment_Collection;
-use Adiungo\Core\Interfaces\Attachment;
+use Adiungo\Core\Abstracts\Attachment;
 use Underpin\Exceptions\Operation_Failed;
 
 trait With_Attachments
