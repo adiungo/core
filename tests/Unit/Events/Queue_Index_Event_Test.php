@@ -12,6 +12,7 @@ use Adiungo\Tests\Traits\With_Inaccessible_Methods;
 use Mockery;
 use Underpin\Exceptions\Operation_Failed;
 use Underpin\Exceptions\Unknown_Registry_Item;
+use Underpin\Interfaces\Identifiable_String;
 
 class Queue_Index_Event_Test extends Test_Case
 {
@@ -29,13 +30,11 @@ class Queue_Index_Event_Test extends Test_Case
         $instance = Mockery::mock(Queue_Index_Event::class);
         $instance->shouldAllowMockingProtectedMethods()->makePartial();
 
-        /** @var Mockery\MockInterface&Has_Index_Strategy $index_strategy_builder */
-        $index_strategy_builder = Mockery::namedMock('Builder', $this->create_builder()::class);
         $callback = fn () => '';
 
-        $instance->expects('get_broadcaster->attach')->with('Builder', $callback);
+        $instance->expects('get_broadcaster->attach')->with('foo', $callback);
 
-        $instance->attach($index_strategy_builder::class, $callback);
+        $instance->attach('foo', $callback);
     }
 
     /**
@@ -49,13 +48,11 @@ class Queue_Index_Event_Test extends Test_Case
         $instance = Mockery::mock(Queue_Index_Event::class);
         $instance->shouldAllowMockingProtectedMethods()->makePartial();
 
-        /** @var Mockery\MockInterface&Has_Index_Strategy $index_strategy_builder */
-        $index_strategy_builder = Mockery::namedMock('Builder', $this->create_builder()::class);
         $callback = fn () => '';
 
-        $instance->expects('get_broadcaster->detach')->with('Builder', $callback);
+        $instance->expects('get_broadcaster->detach')->with('bar', $callback);
 
-        $instance->detach($index_strategy_builder::class, $callback);
+        $instance->detach('bar', $callback);
     }
 
     /**
@@ -70,12 +67,11 @@ class Queue_Index_Event_Test extends Test_Case
 
         $strategy = Mockery::mock(Index_Strategy::class);
 
-        /** @var Mockery\MockInterface&Has_Index_Strategy $index_strategy_builder */
-        $index_strategy_builder = Mockery::namedMock('Builder', $this->create_builder()::class);
-        $index_strategy_builder->allows('get_index_strategy')->andReturn($strategy);
+        /** @var Mockery\MockInterface&Has_Index_Strategy&Identifiable_String $index_strategy_builder */
+        $index_strategy_builder = $this->create_builder()->set_index_strategy($strategy);
 
         $instance->expects('get_broadcaster->broadcast')->withArgs(function ($key, $strategy_test) use ($strategy) {
-            return $key === 'Builder' && $strategy_test instanceof Index_Strategy_Provider && $strategy_test->get_index_strategy() === $strategy;
+            return $key === 'baz' && $strategy_test instanceof Index_Strategy_Provider && $strategy_test->get_index_strategy() === $strategy;
         });
 
 
@@ -89,8 +85,18 @@ class Queue_Index_Event_Test extends Test_Case
      */
     private function create_builder(): Has_Index_Strategy
     {
-        return new class () implements Has_Index_Strategy {
+        return new class () implements Has_Index_Strategy, Identifiable_String {
             use With_Index_Strategy;
+
+            public function get_id(): ?string
+            {
+                return 'baz';
+            }
+
+            public function set_id(?string $id): static
+            {
+                return $this;
+            }
         };
     }
 }
