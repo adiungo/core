@@ -12,8 +12,8 @@ class Basic_Batch_Response_Adapter_Test extends Test_Case
     /**
      * @covers       \Adiungo\Core\Adapters\Basic_Batch_Response_Adapter::to_array
      *
-     * @param array $expected
      * @param string $response
+     * @param mixed[][] $expected
      * @return void
      * @throws Operation_Failed
      * @dataProvider provider_can_convert_to_array
