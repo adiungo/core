@@ -21,8 +21,9 @@ class Has_All_Ids_Strategy_Test extends Test_Case
      * @param int $per_page
      * @throws ReflectionException
      * @dataProvider provider_collection_count_is_equal_to_items_per_page
+     * @return void
      */
-    public function test_collection_count_is_equal_to_items_per_page(bool $expected, int $per_page)
+    public function test_collection_count_is_equal_to_items_per_page(bool $expected, int $per_page): void
     {
         $strategy = Mockery::mock(Has_All_Ids_Strategy::class)->makePartial();
         $strategy->allows('get_content_model_collection->to_array')->andReturn(['foo', 'bar']);
@@ -46,8 +47,9 @@ class Has_All_Ids_Strategy_Test extends Test_Case
      * @param int $requested_count
      * @throws ReflectionException
      * @dataProvider provider_collection_count_is_equal_to_requested_count
+     * @return void
      */
-    public function test_collection_count_is_equal_to_requested_count(bool $expected, int $requested_count)
+    public function test_collection_count_is_equal_to_requested_count(bool $expected, int $requested_count): void
     {
         $strategy = Mockery::mock(Has_All_Ids_Strategy::class)->makePartial();
         $strategy->allows('get_content_model_collection->to_array')->andReturn(['foo', 'bar']);
