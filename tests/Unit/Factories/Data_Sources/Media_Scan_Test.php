@@ -37,8 +37,9 @@ class Media_Scan_Test extends Test_Case
     /**
      * @covers \Adiungo\Core\Factories\Data_Sources\Media_Scan::get_data()
      * @throws Operation_Failed
+     * @return void
      */
-    public function test_can_get_data()
+    public function test_can_get_data(): void
     {
         $instance = Mockery::mock(Media_Scan::class)->shouldAllowMockingProtectedMethods()->makePartial();
 
