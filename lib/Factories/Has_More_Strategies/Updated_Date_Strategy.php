@@ -1,6 +1,6 @@
 <?php
 
-namespace Adiungo\Core\Factories;
+namespace Adiungo\Core\Factories\Has_More_Strategies;
 
 use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Abstracts\Has_More_Strategy;

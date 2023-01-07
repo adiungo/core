@@ -4,7 +4,7 @@ namespace Adiungo\Core\Tests\Unit\Factories;
 
 use Adiungo\Core\Abstracts\Content_Model;
 use Adiungo\Core\Collections\Content_Model_Collection;
-use Adiungo\Core\Factories\Updated_Date_Strategy;
+use Adiungo\Core\Factories\Has_More_Strategies\Updated_Date_Strategy;
 use Adiungo\Core\Interfaces\Has_Updated_Date;
 use Adiungo\Core\Traits\With_Updated_Date;
 use Adiungo\Tests\Test_Case;
