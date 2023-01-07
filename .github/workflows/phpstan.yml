@@ -15,3 +15,4 @@ jobs:
           path: lib/ tests/
           level: 9
           php_version: 8.1
+          memory_limit: 256M
