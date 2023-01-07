@@ -18,7 +18,7 @@ class Basic_Batch_Response_Adapter extends Batch_Response_Adapter
         try {
             $result = Array_Helper::wrap(json_decode($this->get_response(), true, flags: JSON_THROW_ON_ERROR));
 
-            if(Array_Helper::is_associative($result)){
+            if (Array_Helper::is_associative($result)) {
                 $result = [$result];
             }
 

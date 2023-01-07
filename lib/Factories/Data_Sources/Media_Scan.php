@@ -44,7 +44,12 @@ class Media_Scan implements Data_Source, Has_Content, Has_Base
      */
     protected function get_dom_document(): DOMDocument
     {
-        return new DOMDocument();
+        return $this->load_from_cache('dom', function () {
+            $dom = new DOMDocument();
+            $dom->loadHTML($this->get_content());
+
+            return $dom;
+        });
     }
 
     /**
@@ -101,7 +106,7 @@ class Media_Scan implements Data_Source, Has_Content, Has_Base
      */
     public function get_item(int|string $id): Content_Model
     {
-        return new class extends Content_Model{
+        return new class () extends Content_Model {
             public function get_id(): string|int|null
             {
                 return 123;

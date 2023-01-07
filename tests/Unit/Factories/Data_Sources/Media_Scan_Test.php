@@ -8,11 +8,16 @@ use Adiungo\Core\Factories\Attachments\Image;
 use Adiungo\Core\Factories\Attachments\Video;
 use Adiungo\Core\Factories\Data_Sources\Media_Scan;
 use Adiungo\Tests\Test_Case;
+use Adiungo\Tests\Traits\With_Inaccessible_Methods;
+use DOMDocument;
 use Mockery;
+use ReflectionException;
 use Underpin\Exceptions\Operation_Failed;
 
 class Media_Scan_Test extends Test_Case
 {
+    use With_Inaccessible_Methods;
+
     /**
      * @covers \Adiungo\Core\Factories\Data_Sources\Media_Scan::has_more
      *
@@ -32,6 +37,23 @@ class Media_Scan_Test extends Test_Case
     {
         $instance = new Media_Scan();
         $this->assertSame($instance, $instance->get_next());
+    }
+
+    /**
+     * @covers \Adiungo\Core\Factories\Data_Sources\Media_Scan::get_dom_document
+     *
+     * @return void
+     * @throws ReflectionException
+     */
+    public function test_can_get_dom_document(): void
+    {
+        $instance = Mockery::mock(Media_Scan::class)->makePartial();
+
+        $instance->allows('get_content')->andReturn('foo');
+
+        /** @var DomDocument $result */
+        $result = $this->call_inaccessible_method($instance, 'get_dom_document');
+        $this->assertEquals('foo', $result->textContent);
     }
 
     /**
