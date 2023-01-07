@@ -16,7 +16,13 @@ class Basic_Batch_Response_Adapter extends Batch_Response_Adapter
     public function to_array(): array
     {
         try {
-            return Array_Helper::wrap(json_decode($this->get_response(), true, flags: JSON_THROW_ON_ERROR));
+            $result = Array_Helper::wrap(json_decode($this->get_response(), true, flags: JSON_THROW_ON_ERROR));
+
+            if(Array_Helper::is_associative($result)){
+                $result = [$result];
+            }
+
+            return $result;
         } catch (JsonException $e) {
             throw new Operation_Failed('Response is malformed', previous: $e);
         }
