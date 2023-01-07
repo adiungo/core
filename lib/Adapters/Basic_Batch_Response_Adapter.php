@@ -10,7 +10,7 @@ use Underpin\Helpers\Array_Helper;
 class Basic_Batch_Response_Adapter extends Batch_Response_Adapter
 {
     /**
-     * @return array[]
+     * @return mixed[][]
      * @throws Operation_Failed
      */
     public function to_array(): array
