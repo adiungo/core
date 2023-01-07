@@ -12,7 +12,6 @@ class Has_All_Ids_Strategy extends Has_More_Strategy
      */
     public function __construct(protected int $per_page, protected int $requested_count)
     {
-
     }
 
     /**
