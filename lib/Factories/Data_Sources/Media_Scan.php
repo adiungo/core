@@ -15,6 +15,7 @@ use Adiungo\Core\Traits\With_Base;
 use Adiungo\Core\Traits\With_Content;
 use DOMDocument;
 use DOMNode;
+use Masterminds\HTML5;
 use Underpin\Exceptions\Operation_Failed;
 use Underpin\Factories\Url;
 use Underpin\Traits\With_Object_Cache;
@@ -44,22 +45,41 @@ class Media_Scan implements Data_Source, Has_Content, Has_Base
      */
     protected function get_dom_document(): DOMDocument
     {
-        return $this->load_from_cache('dom', function () {
-            $dom = new DOMDocument();
-            $dom->loadHTML($this->get_content());
-
-            return $dom;
-        });
+        return $this->load_from_cache('dom', fn() => (new HTML5())->parse($this->get_content()));
     }
 
     /**
      * @param string $tag
      * @param class-string<Attachment> $class
      * @return Content_Model_Collection
+     * @throws Operation_Failed
      */
     protected function get_collection_for_tag(string $tag, string $class): Content_Model_Collection
     {
-        return new Content_Model_Collection();
+        $items = $this->get_dom_document()->getElementsByTagName($tag);
+        $collection = new Content_Model_Collection();
+
+        /** @var DOMNode $node * */
+        foreach ($items as $node) {
+            $model = $this->build_model_from_node($node, $class);
+            if ($model) {
+                $collection->add((string) $model->get_id(), $model);
+            }
+        }
+
+        return $collection;
+    }
+
+    /**
+     * Builds the content model from the provided node.
+     *
+     * @param DOMNode $node The node from which the model should be built.
+     * @param class-string<Content_Model> $class The class to instantiate
+     * @return Content_Model|null
+     */
+    protected function build_model_from_node(DOMNode $node, string $class): ?Content_Model
+    {
+        return null;
     }
 
     /**
