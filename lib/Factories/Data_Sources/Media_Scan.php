@@ -4,6 +4,8 @@ namespace Adiungo\Core\Factories\Data_Sources;
 
 use Adiungo\Core\Abstracts\Attachment;
 use Adiungo\Core\Abstracts\Content_Model;
+use Adiungo\Core\Adapters\Node_To_Attachment_Collection_Builder;
+use Adiungo\Core\Collections\Attachment_Collection;
 use Adiungo\Core\Collections\Content_Model_Collection;
 use Adiungo\Core\Factories\Attachments\Audio;
 use Adiungo\Core\Factories\Attachments\Image;
@@ -17,7 +19,6 @@ use DOMDocument;
 use DOMNode;
 use Masterminds\HTML5;
 use Underpin\Exceptions\Operation_Failed;
-use Underpin\Factories\Url;
 use Underpin\Traits\With_Object_Cache;
 
 class Media_Scan implements Data_Source, Has_Content, Has_Base
@@ -27,10 +28,10 @@ class Media_Scan implements Data_Source, Has_Content, Has_Base
     use With_Object_Cache;
 
     /**
-     * @return Content_Model_Collection
+     * @return Attachment_Collection
      * @throws Operation_Failed
      */
-    public function get_data(): Content_Model_Collection
+    public function get_data(): Attachment_Collection
     {
         return $this->get_collection_for_tag('img', Image::class)->merge(
             $this->get_collection_for_tag('video', Video::class),
@@ -45,25 +46,25 @@ class Media_Scan implements Data_Source, Has_Content, Has_Base
      */
     protected function get_dom_document(): DOMDocument
     {
-        return $this->load_from_cache('dom', fn() => (new HTML5())->parse($this->get_content()));
+        return $this->load_from_cache('dom', fn () => (new HTML5())->parse($this->get_content()));
     }
 
     /**
      * @param string $tag
      * @param class-string<Attachment> $class
-     * @return Content_Model_Collection
+     * @return Attachment_Collection
      * @throws Operation_Failed
      */
-    protected function get_collection_for_tag(string $tag, string $class): Content_Model_Collection
+    protected function get_collection_for_tag(string $tag, string $class): Attachment_Collection
     {
         $items = $this->get_dom_document()->getElementsByTagName($tag);
-        $collection = new Content_Model_Collection();
+        $collection = new Attachment_Collection();
 
         /** @var DOMNode $node * */
         foreach ($items as $node) {
-            $model = $this->build_model_from_node($node, $class);
-            if ($model) {
-                $collection->add((string) $model->get_id(), $model);
+            $model_collection = $this->build_model_collection_from_node($node, $class);
+            if ($model_collection) {
+                $collection = $collection->merge($model_collection);
             }
         }
 
@@ -75,32 +76,25 @@ class Media_Scan implements Data_Source, Has_Content, Has_Base
      *
      * @param DOMNode $node The node from which the model should be built.
      * @param class-string<Content_Model> $class The class to instantiate
-     * @return Content_Model|null
+     * @return Content_Model_Collection|null
      */
-    protected function build_model_from_node(DOMNode $node, string $class): ?Content_Model
+    protected function build_model_collection_from_node(DOMNode $node, string $class): ?Content_Model_Collection
     {
-        return null;
+        try {
+            return $this->get_attachment_builder_instance($node, $class)->to_attachment_collection();
+        } catch (Operation_Failed $e) {
+            return null;
+        }
     }
 
     /**
-     * @param string $src
-     * @return Url
+     * @param DOMNode $node The node from which the model should be built.
+     * @param class-string<Content_Model> $class The class to instantiate
+     * @return Node_To_Attachment_Collection_Builder
      */
-    protected function get_src_url(string $src): Url
+    protected function get_attachment_builder_instance(DOMNode $node, string $class): Node_To_Attachment_Collection_Builder
     {
-        return new Url();
-    }
-
-    /**
-     * Traverse up the dom to determine if this node is a child of the specified tag.
-     *
-     * @param string $tag The parent tag
-     * @param DOMNode $node The node to use when searching for the tag.
-     * @return bool
-     */
-    protected function is_child(string $tag, DomNode $node): bool
-    {
-        return false;
+        return new Node_To_Attachment_Collection_Builder($node, $class);
     }
 
     /**
