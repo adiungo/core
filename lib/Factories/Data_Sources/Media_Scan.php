@@ -18,6 +18,7 @@ use Adiungo\Core\Traits\With_Content;
 use DOMDocument;
 use DOMNode;
 use Masterminds\HTML5;
+use Underpin\Exceptions\Item_Not_Found;
 use Underpin\Exceptions\Operation_Failed;
 use Underpin\Traits\With_Object_Cache;
 
@@ -46,7 +47,7 @@ class Media_Scan implements Data_Source, Has_Content, Has_Base
      */
     protected function get_dom_document(): DOMDocument
     {
-        return $this->load_from_cache('dom', fn () => (new HTML5())->parse($this->get_content()));
+        return $this->load_from_cache('dom', fn() => (new HTML5())->parse($this->get_content()));
     }
 
     /**
@@ -115,16 +116,20 @@ class Media_Scan implements Data_Source, Has_Content, Has_Base
 
     /**
      * Fetches the item from the specified URL.
-     * @param int|string $id
+     * @param int|string $id The content source
      * @return Content_Model
+     * @throws Item_Not_Found
+     * @throws Operation_Failed
      */
     public function get_item(int|string $id): Content_Model
     {
-        return new class () extends Content_Model {
-            public function get_id(): string|int|null
-            {
-                return 123;
-            }
-        };
+        /** @var Content_Model $item */
+        $item = $this->get_data()->query()->key_in($id)->find();
+
+        if (!$item) {
+            throw new Item_Not_Found("No item with that ID exists in this content.");
+        }
+
+        return $item;
     }
 }

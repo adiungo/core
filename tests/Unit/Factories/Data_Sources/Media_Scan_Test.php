@@ -17,6 +17,7 @@ use DOMNode;
 use Masterminds\HTML5;
 use Mockery;
 use ReflectionException;
+use Underpin\Exceptions\Item_Not_Found;
 use Underpin\Exceptions\Operation_Failed;
 
 class Media_Scan_Test extends Test_Case
@@ -190,5 +191,26 @@ class Media_Scan_Test extends Test_Case
 
         $this->assertSame($node, $result_node);
         $this->assertSame($class, $result_class);
+    }
+
+    /**
+     * @covers \Adiungo\Core\Factories\Data_Sources\Media_Scan::get_item()
+     *
+     * @return void
+     * @throws Operation_Failed
+     * @throws Item_Not_Found
+     */
+    public function test_can_get_item(): void
+    {
+        $media_scan = Mockery::mock(Media_Scan::class)->makePartial();
+        $expected = (new Image())->set_id('foo');
+
+        $media_scan->allows('get_data')->andReturn((new Attachment_Collection())->seed([
+            $expected,
+            (new Video())->set_id('bar'),
+            (new Audio())->set_id('baz')
+        ]));
+
+        $this->assertSame($expected, $media_scan->get_item('foo'));
     }
 }
