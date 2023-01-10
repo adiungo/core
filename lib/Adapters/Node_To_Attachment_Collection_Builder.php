@@ -60,7 +60,7 @@ class Node_To_Attachment_Collection_Builder implements Can_Convert_To_Attachment
     protected function add_attachment(Attachment_Collection $acc, DOMAttr $source): Attachment_Collection
     {
         $attachment = $this->build_attachment_from_attribute($source);
-        return $acc->add($attachment->get_id(), $attachment);
+        return $acc->add((string) $attachment->get_id(), $attachment);
     }
 
     /**
