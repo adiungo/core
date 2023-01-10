@@ -10,7 +10,8 @@ use Adiungo\Core\Interfaces\Can_Convert_To_Attachment_Collection;
 use DOMAttr;
 use DOMNode;
 use Underpin\Exceptions\Operation_Failed;
-use Underpin\Factories\Url;
+use Underpin\Exceptions\Validation_Failed;
+use Underpin\Helpers\Array_Helper;
 
 class Node_To_Attachment_Collection_Builder implements Can_Convert_To_Attachment_Collection
 {
@@ -24,11 +25,42 @@ class Node_To_Attachment_Collection_Builder implements Can_Convert_To_Attachment
 
     /**
      * @return Attachment_Collection
-     * @throws Operation_Failed
+     * @throws Validation_Failed
      */
     public function to_attachment_collection(): Attachment_Collection
     {
-        return new Attachment_Collection();
+        return Array_Helper::reduce($this->validate()->get_sources(), [$this, 'add_attachment'], new Attachment_Collection());
+    }
+
+    /**
+     * @return static
+     * @throws Validation_Failed
+     */
+    protected function validate(): static
+    {
+        if($this->is_child('pre', $this->node)) {
+            throw new Validation_Failed('Node is a child of a pre tag and is probably not intended to be fetched.', type: 'notice');
+        }
+
+        if($this->is_child('code', $this->node)) {
+            throw new Validation_Failed('Node is a child of a code tag and is probably not intended to be fetched.', type: 'notice');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Adds an attachment to the given collection from the given source.
+     *
+     * @param Attachment_Collection $acc
+     * @param DOMAttr $source
+     * @return Attachment_Collection
+     * @throws Operation_Failed
+     */
+    protected function add_attachment(Attachment_Collection $acc, DOMAttr $source): Attachment_Collection
+    {
+        $attachment = $this->build_attachment_from_attribute($source);
+        return $acc->add((string) $attachment->get_id(), $attachment);
     }
 
     /**
@@ -50,15 +82,6 @@ class Node_To_Attachment_Collection_Builder implements Can_Convert_To_Attachment
     protected function get_sources(): array
     {
         return [];
-    }
-
-    /**
-     * @param string $src
-     * @return Url
-     */
-    protected function get_src_url(string $src): Url
-    {
-        return new Url();
     }
 
     /**
