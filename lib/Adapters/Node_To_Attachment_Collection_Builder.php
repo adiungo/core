@@ -70,7 +70,15 @@ class Node_To_Attachment_Collection_Builder implements Can_Convert_To_Attachment
      */
     protected function is_child(string $tag, DomNode $node): bool
     {
-        return false;
+        if (!$node->parentNode) {
+            return false;
+        }
+
+        if ($node->parentNode->nodeName === $tag) {
+            return true;
+        }
+
+        return $this->is_child($tag, $node->parentNode);
     }
 
     /**
