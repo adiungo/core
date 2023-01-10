@@ -1,6 +1,6 @@
 <?php
 
-namespace Adiungo\Core\Tests\Unit\Factories\Adapters\Has_More_Strategies;
+namespace Adiungo\Core\Tests\Unit\Factories;
 
 use Adiungo\Core\Factories\Has_More_Strategies\Has_All_Ids_Strategy;
 use Adiungo\Tests\Test_Case;
