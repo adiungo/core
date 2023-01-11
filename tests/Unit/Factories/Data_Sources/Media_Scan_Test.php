@@ -13,7 +13,7 @@ use Adiungo\Tests\Traits\With_Inaccessible_Methods;
 use Adiungo\Tests\Traits\With_Inaccessible_Properties;
 use DOMAttr;
 use DOMDocument;
-use DOMNode;
+use DOMElement;
 use Masterminds\HTML5;
 use Mockery;
 use ReflectionException;
@@ -127,19 +127,19 @@ class Media_Scan_Test extends Test_Case
             (new Video())->set_id('812'),
         ];
 
-        $instance->expects('build_model_collection_from_node')->once()->withArgs(function ($node, $class_arg) {
+        $instance->expects('build_model_collection_from_node')->once()->withArgs(function ($element, $class_arg) {
             /** @var DOMAttr $src */
-            $src = $node->attributes['src'];
-            return $node instanceof DOMNode && $src->textContent === 'test.png' && $class_arg === Image::class;
+            $src = $element->getAttributeNode('src');
+            return $element instanceof DOMElement && $src->textContent === 'test.png' && $class_arg === Image::class;
         })->andReturn((new Attachment_Collection())->seed([$image_models[0]]));
 
-        $instance->expects('build_model_collection_from_node')->once()->withArgs(function ($node, $class_arg) {
+        $instance->expects('build_model_collection_from_node')->once()->withArgs(function ($element, $class_arg) {
             /** @var DOMAttr $src */
-            $src = $node->attributes['src'];
-            return $node instanceof DOMNode && $src->textContent === 'test-3.png' && $class_arg === Image::class;
+            $src = $element->getAttributeNode('src');
+            return $element instanceof DOMElement && $src->textContent === 'test-3.png' && $class_arg === Image::class;
         })->andReturn((new Attachment_Collection())->seed([$image_models[1]]));
 
-        $instance->expects('build_model_collection_from_node')->once()->withArgs(function ($node, $class_arg) {
+        $instance->expects('build_model_collection_from_node')->once()->withArgs(function ($element, $class_arg) {
             return $class_arg === Video::class;
         })->andReturn((new Attachment_Collection())->seed($video_models));
 
@@ -159,14 +159,14 @@ class Media_Scan_Test extends Test_Case
     public function test_can_build_collection_from_node(): void
     {
         $instance = Mockery::mock(Media_Scan::class)->makePartial()->shouldAllowMockingProtectedMethods();
-        $node = new DOMNode();
+        $element = Mockery::mock(DOMElement::class);
         $class = Image::class;
         $builder = Mockery::mock(Node_To_Attachment_Collection_Builder::class);
         $expected = new Attachment_Collection();
-        $instance->expects('get_attachment_builder_instance')->once()->with($node, $class)->andReturn($builder);
+        $instance->expects('get_attachment_builder_instance')->once()->with($element, $class)->andReturn($builder);
         $builder->expects('to_attachment_collection')->andReturn($expected);
 
-        $result = $this->call_inaccessible_method($instance, 'build_model_collection_from_node', $node, $class);
+        $result = $this->call_inaccessible_method($instance, 'build_model_collection_from_node', $element, $class);
 
         $this->assertSame($expected, $result);
     }
@@ -180,16 +180,16 @@ class Media_Scan_Test extends Test_Case
     public function test_can_get_attachment_builder_instance(): void
     {
         $instance = Mockery::mock(Media_Scan::class)->makePartial();
-        $node = new DOMNode();
+        $element = Mockery::mock(DOMElement::class);
         $class = Image::class;
-        $result = $this->call_inaccessible_method($instance, 'get_attachment_builder_instance', $node, $class);
+        $result = $this->call_inaccessible_method($instance, 'get_attachment_builder_instance', $element, $class);
 
         $this->assertInstanceOf(Node_To_Attachment_Collection_Builder::class, $result);
 
         $result_class = $this->get_protected_property($result, 'attachment')->getValue($result);
-        $result_node = $this->get_protected_property($result, 'node')->getValue($result);
+        $result_node = $this->get_protected_property($result, 'element')->getValue($result);
 
-        $this->assertSame($node, $result_node);
+        $this->assertSame($element, $result_node);
         $this->assertSame($class, $result_class);
     }
 

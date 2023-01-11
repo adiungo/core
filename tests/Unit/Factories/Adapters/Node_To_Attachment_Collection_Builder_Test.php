@@ -10,7 +10,7 @@ use Adiungo\Tests\Test_Case;
 use Adiungo\Tests\Traits\With_Inaccessible_Methods;
 use Adiungo\Tests\Traits\With_Inaccessible_Properties;
 use DOMAttr;
-use DOMNode;
+use DOMElement;
 use Exception;
 use Generator;
 use Masterminds\HTML5;
@@ -30,7 +30,7 @@ class Node_To_Attachment_Collection_Builder_Test extends Test_Case
     public function test_can_verify_if_is_child(): void
     {
         $html = (new HTML5())->parse('<section><aside><div><blockquote><p>Hello!</p></blockquote></div></aside></section>');
-        /** @var DOMNode $item */
+        /** @var DOMElement $item */
         $item = $html->getElementsByTagName('blockquote')->item(0);
         $instance = new Node_To_Attachment_Collection_Builder($item, Image::class);
 
@@ -102,11 +102,11 @@ class Node_To_Attachment_Collection_Builder_Test extends Test_Case
             ->shouldAllowMockingProtectedMethods()
             ->makePartial();
 
-        $node = Mockery::mock(DOMNode::class);
-        $this->set_protected_property($instance, 'node', $node);
+        $element = Mockery::mock(DOMElement::class);
+        $this->set_protected_property($instance, 'element', $element);
 
-        $instance->allows('is_child')->with('pre', $node)->andReturn($tag === 'pre');
-        $instance->allows('is_child')->with('code', $node)->andReturn($tag === 'code');
+        $instance->allows('is_child')->with('pre', $element)->andReturn($tag === 'pre');
+        $instance->allows('is_child')->with('code', $element)->andReturn($tag === 'code');
 
 
         if ($exception) {
@@ -126,5 +126,51 @@ class Node_To_Attachment_Collection_Builder_Test extends Test_Case
         yield 'throws if child is pre' => [Validation_Failed::class, 'pre'];
         yield 'throws if child is code' => [Validation_Failed::class, 'code'];
         yield 'does not throw if passing' => [null, 'img'];
+    }
+
+    /**
+     * @covers       \Adiungo\Core\Adapters\Node_To_Attachment_Collection_Builder::node_has_src_attributes()
+     * @param bool $expected
+     * @param string $html
+     * @param string $tag
+     * @return void
+     * @throws ReflectionException
+     * @dataProvider provider_can_determine_if_node_has_src_attributes
+     */
+    public function test_can_determine_if_node_has_src_attributes(bool $expected, string $html, string $tag): void
+    {
+        $element = (new HTML5())->parse($html)->getElementsByTagName($tag)->item(0);
+        $instance = Mockery::mock(Node_To_Attachment_Collection_Builder::class)
+            ->shouldAllowMockingProtectedMethods()
+            ->makePartial();
+
+        $result = $this->call_inaccessible_method($instance, 'has_src_attribute', $element);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    public function provider_can_determine_if_node_has_src_attributes(): Generator
+    {
+        yield 'true if node has src attributes' => [true, '<img src="foo.jpg"/>', 'img'];
+        yield 'false if node does not have a src attribute, but has other attributes' => [false, '<div class="bar"><p>hi</p></div>', 'div'];
+        yield 'false if node does not have any attributes' => [false, '<h2>bar</h2>', 'h2'];
+    }
+
+    /**
+     * @covers       \Adiungo\Core\Adapters\Node_To_Attachment_Collection_Builder::node_has_src_attributes()
+     * @return void
+     * @throws ReflectionException
+     */
+    public function test_node_has_src_attributes_returns_false_with_malformed_node(): void
+    {
+        $element = new DOMElement('invalid');
+
+        $instance = Mockery::mock(Node_To_Attachment_Collection_Builder::class)
+            ->shouldAllowMockingProtectedMethods()
+            ->makePartial();
+
+        $result = $this->call_inaccessible_method($instance, 'has_src_attribute', $element);
+
+        $this->assertFalse($result);
     }
 }

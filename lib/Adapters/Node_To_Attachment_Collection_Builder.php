@@ -8,7 +8,7 @@ use Adiungo\Core\Collections\Attachment_Collection;
 use Adiungo\Core\Factories\Attachments\Image;
 use Adiungo\Core\Interfaces\Can_Convert_To_Attachment_Collection;
 use DOMAttr;
-use DOMNode;
+use DOMElement;
 use Underpin\Exceptions\Operation_Failed;
 use Underpin\Exceptions\Validation_Failed;
 use Underpin\Helpers\Array_Helper;
@@ -16,10 +16,10 @@ use Underpin\Helpers\Array_Helper;
 class Node_To_Attachment_Collection_Builder implements Can_Convert_To_Attachment_Collection
 {
     /**
-     * @param DOMNode $node The node from which the model should be built.
+     * @param DOMElement $element The node from which the model should be built.
      * @param class-string<Content_Model> $attachment The class to instantiate
      */
-    public function __construct(protected DOMNode $node, protected string $attachment)
+    public function __construct(protected DOMElement $element, protected string $attachment)
     {
     }
 
@@ -38,11 +38,11 @@ class Node_To_Attachment_Collection_Builder implements Can_Convert_To_Attachment
      */
     protected function validate(): static
     {
-        if($this->is_child('pre', $this->node)) {
+        if ($this->is_child('pre', $this->element)) {
             throw new Validation_Failed('Node is a child of a pre tag and is probably not intended to be fetched.', type: 'notice');
         }
 
-        if($this->is_child('code', $this->node)) {
+        if ($this->is_child('code', $this->element)) {
             throw new Validation_Failed('Node is a child of a code tag and is probably not intended to be fetched.', type: 'notice');
         }
 
@@ -60,7 +60,7 @@ class Node_To_Attachment_Collection_Builder implements Can_Convert_To_Attachment
     protected function add_attachment(Attachment_Collection $acc, DOMAttr $source): Attachment_Collection
     {
         $attachment = $this->build_attachment_from_attribute($source);
-        return $acc->add((string) $attachment->get_id(), $attachment);
+        return $acc->add((string)$attachment->get_id(), $attachment);
     }
 
     /**
@@ -88,30 +88,41 @@ class Node_To_Attachment_Collection_Builder implements Can_Convert_To_Attachment
      * Traverse up the dom to determine if this node is a child of the specified tag.
      *
      * @param string $tag The parent tag
-     * @param DOMNode $node The node to use when searching for the tag.
+     * @param DOMElement $element The node to use when searching for the tag.
      * @return bool
      */
-    protected function is_child(string $tag, DomNode $node): bool
+    protected function is_child(string $tag, DOMElement $element): bool
     {
-        if (!$node->parentNode) {
+        if (!$element->parentNode) {
             return false;
         }
 
-        if ($node->parentNode->nodeName === $tag) {
+        if ($element->parentNode->nodeName === $tag) {
             return true;
         }
 
-        return $this->is_child($tag, $node->parentNode);
+        if (!$element->parentNode instanceof DOMElement) {
+            return false;
+        }
+
+        return $this->is_child($tag, $element->parentNode);
     }
 
     /**
      * Returns true if the provided node has a src attribute.
      *
-     * @param DOMNode $node
+     * @param DOMElement $element
      * @return bool
      */
-    protected function has_src_attribute(DOMNode $node): bool
+    protected function has_src_attribute(DOMElement $element): bool
     {
-        return false;
+        if (!$element->hasAttributes()) {
+            return false;
+        }
+
+        /** @var bool|DOMAttr $node */
+        $node = $element->getAttributeNode('src');
+
+        return false !== $node;
     }
 }
