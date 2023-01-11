@@ -10,7 +10,7 @@ use Adiungo\Tests\Test_Case;
 use Adiungo\Tests\Traits\With_Inaccessible_Methods;
 use Adiungo\Tests\Traits\With_Inaccessible_Properties;
 use DOMAttr;
-use DOMNode;
+use DOMElement;
 use Exception;
 use Generator;
 use Masterminds\HTML5;
@@ -30,7 +30,7 @@ class Node_To_Attachment_Collection_Builder_Test extends Test_Case
     public function test_can_verify_if_is_child(): void
     {
         $html = (new HTML5())->parse('<section><aside><div><blockquote><p>Hello!</p></blockquote></div></aside></section>');
-        /** @var DOMNode $item */
+        /** @var DOMElement $item */
         $item = $html->getElementsByTagName('blockquote')->item(0);
         $instance = new Node_To_Attachment_Collection_Builder($item, Image::class);
 
@@ -102,11 +102,11 @@ class Node_To_Attachment_Collection_Builder_Test extends Test_Case
             ->shouldAllowMockingProtectedMethods()
             ->makePartial();
 
-        $node = Mockery::mock(DOMNode::class);
-        $this->set_protected_property($instance, 'node', $node);
+        $element = Mockery::mock(DOMElement::class);
+        $this->set_protected_property($instance, 'element', $element);
 
-        $instance->allows('is_child')->with('pre', $node)->andReturn($tag === 'pre');
-        $instance->allows('is_child')->with('code', $node)->andReturn($tag === 'code');
+        $instance->allows('is_child')->with('pre', $element)->andReturn($tag === 'pre');
+        $instance->allows('is_child')->with('code', $element)->andReturn($tag === 'code');
 
 
         if ($exception) {

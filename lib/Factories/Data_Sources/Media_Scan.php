@@ -16,10 +16,11 @@ use Adiungo\Core\Interfaces\Has_Content;
 use Adiungo\Core\Traits\With_Base;
 use Adiungo\Core\Traits\With_Content;
 use DOMDocument;
-use DOMNode;
+use DOMElement;
 use Masterminds\HTML5;
 use Underpin\Exceptions\Item_Not_Found;
 use Underpin\Exceptions\Operation_Failed;
+use Underpin\Exceptions\Validation_Failed;
 use Underpin\Traits\With_Object_Cache;
 
 class Media_Scan implements Data_Source, Has_Content, Has_Base
@@ -61,9 +62,9 @@ class Media_Scan implements Data_Source, Has_Content, Has_Base
         $items = $this->get_dom_document()->getElementsByTagName($tag);
         $collection = new Attachment_Collection();
 
-        /** @var DOMNode $node * */
-        foreach ($items as $node) {
-            $model_collection = $this->build_model_collection_from_node($node, $class);
+        /** @var DOMElement $element * */
+        foreach ($items as $element) {
+            $model_collection = $this->build_model_collection_from_node($element, $class);
             if ($model_collection) {
                 $collection = $collection->merge($model_collection);
             }
@@ -75,27 +76,27 @@ class Media_Scan implements Data_Source, Has_Content, Has_Base
     /**
      * Builds the content model from the provided node.
      *
-     * @param DOMNode $node The node from which the model should be built.
+     * @param DOMElement $element The node from which the model should be built.
      * @param class-string<Content_Model> $class The class to instantiate
      * @return Content_Model_Collection|null
      */
-    protected function build_model_collection_from_node(DOMNode $node, string $class): ?Content_Model_Collection
+    protected function build_model_collection_from_node(DOMElement $element, string $class): ?Content_Model_Collection
     {
         try {
-            return $this->get_attachment_builder_instance($node, $class)->to_attachment_collection();
-        } catch (Operation_Failed $e) {
+            return $this->get_attachment_builder_instance($element, $class)->to_attachment_collection();
+        } catch (Validation_Failed $e) {
             return null;
         }
     }
 
     /**
-     * @param DOMNode $node The node from which the model should be built.
+     * @param DOMElement $element The node from which the model should be built.
      * @param class-string<Content_Model> $class The class to instantiate
      * @return Node_To_Attachment_Collection_Builder
      */
-    protected function get_attachment_builder_instance(DOMNode $node, string $class): Node_To_Attachment_Collection_Builder
+    protected function get_attachment_builder_instance(DOMElement $element, string $class): Node_To_Attachment_Collection_Builder
     {
-        return new Node_To_Attachment_Collection_Builder($node, $class);
+        return new Node_To_Attachment_Collection_Builder($element, $class);
     }
 
     /**
