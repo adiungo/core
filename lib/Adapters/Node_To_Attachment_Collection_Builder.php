@@ -38,11 +38,11 @@ class Node_To_Attachment_Collection_Builder implements Can_Convert_To_Attachment
      */
     protected function validate(): static
     {
-        if($this->is_child('pre', $this->node)) {
+        if ($this->is_child('pre', $this->element)) {
             throw new Validation_Failed('Node is a child of a pre tag and is probably not intended to be fetched.', type: 'notice');
         }
 
-        if($this->is_child('code', $this->node)) {
+        if ($this->is_child('code', $this->element)) {
             throw new Validation_Failed('Node is a child of a code tag and is probably not intended to be fetched.', type: 'notice');
         }
 
@@ -60,7 +60,7 @@ class Node_To_Attachment_Collection_Builder implements Can_Convert_To_Attachment
     protected function add_attachment(Attachment_Collection $acc, DOMAttr $source): Attachment_Collection
     {
         $attachment = $this->build_attachment_from_attribute($source);
-        return $acc->add((string) $attachment->get_id(), $attachment);
+        return $acc->add((string)$attachment->get_id(), $attachment);
     }
 
     /**
@@ -111,11 +111,18 @@ class Node_To_Attachment_Collection_Builder implements Can_Convert_To_Attachment
     /**
      * Returns true if the provided node has a src attribute.
      *
-     * @param DOMNode $node
+     * @param DOMElement $element
      * @return bool
      */
-    protected function has_src_attribute(DOMNode $node): bool
+    protected function has_src_attribute(DOMElement $element): bool
     {
-        return false;
+        if (!$element->hasAttributes()) {
+            return false;
+        }
+
+        /** @var bool|DOMAttr $node */
+        $node = $element->getAttributeNode('src');
+
+        return false !== $node;
     }
 }

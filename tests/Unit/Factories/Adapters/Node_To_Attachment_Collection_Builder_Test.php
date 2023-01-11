@@ -127,4 +127,50 @@ class Node_To_Attachment_Collection_Builder_Test extends Test_Case
         yield 'throws if child is code' => [Validation_Failed::class, 'code'];
         yield 'does not throw if passing' => [null, 'img'];
     }
+
+    /**
+     * @covers       \Adiungo\Core\Adapters\Node_To_Attachment_Collection_Builder::node_has_src_attributes()
+     * @param bool $expected
+     * @param string $html
+     * @param string $tag
+     * @return void
+     * @throws ReflectionException
+     * @dataProvider provider_can_determine_if_node_has_src_attributes
+     */
+    public function test_can_determine_if_node_has_src_attributes(bool $expected, string $html, string $tag): void
+    {
+        $element = (new HTML5())->parse($html)->getElementsByTagName($tag)->item(0);
+        $instance = Mockery::mock(Node_To_Attachment_Collection_Builder::class)
+            ->shouldAllowMockingProtectedMethods()
+            ->makePartial();
+
+        $result = $this->call_inaccessible_method($instance, 'has_src_attribute', $element);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    public function provider_can_determine_if_node_has_src_attributes(): Generator
+    {
+        yield 'true if node has src attributes' => [true, '<img src="foo.jpg"/>', 'img'];
+        yield 'false if node does not have a src attribute, but has other attributes' => [false, '<div class="bar"><p>hi</p></div>', 'div'];
+        yield 'false if node does not have any attributes' => [false, '<h2>bar</h2>', 'h2'];
+    }
+
+    /**
+     * @covers       \Adiungo\Core\Adapters\Node_To_Attachment_Collection_Builder::node_has_src_attributes()
+     * @return void
+     * @throws ReflectionException
+     */
+    public function test_node_has_src_attributes_returns_false_with_malformed_node(): void
+    {
+        $element = new DOMElement('invalid');
+
+        $instance = Mockery::mock(Node_To_Attachment_Collection_Builder::class)
+            ->shouldAllowMockingProtectedMethods()
+            ->makePartial();
+
+        $result = $this->call_inaccessible_method($instance, 'has_src_attribute', $element);
+
+        $this->assertFalse($result);
+    }
 }
