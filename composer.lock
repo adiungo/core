@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4f5c6c6ce229f15ced736528e0151a5f",
+    "content-hash": "3cd4fef5eabfd7fced06ff5c6671bbf4",
     "packages": [
         {
             "name": "composer/installers",
@@ -286,16 +286,16 @@
         },
         {
             "name": "underpin/underpin",
-            "version": "3.0.3",
+            "version": "4.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Underpin-WP/underpin.git",
-                "reference": "c6c2ea4568104338680c81bc748ab3b23804ecb9"
+                "reference": "febb0bead5cf8c49fae34b942f458d3ea8add736"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Underpin-WP/underpin/zipball/c6c2ea4568104338680c81bc748ab3b23804ecb9",
-                "reference": "c6c2ea4568104338680c81bc748ab3b23804ecb9",
+                "url": "https://api.github.com/repos/Underpin-WP/underpin/zipball/febb0bead5cf8c49fae34b942f458d3ea8add736",
+                "reference": "febb0bead5cf8c49fae34b942f458d3ea8add736",
                 "shasum": ""
             },
             "require": {
@@ -325,9 +325,9 @@
             "description": "Underpin framework",
             "support": {
                 "issues": "https://github.com/Underpin-WP/underpin/issues",
-                "source": "https://github.com/Underpin-WP/underpin/tree/3.0.3"
+                "source": "https://github.com/Underpin-WP/underpin/tree/4.2.0"
             },
-            "time": "2023-02-06T12:51:39+00:00"
+            "time": "2023-03-23T11:29:04+00:00"
         }
     ],
     "packages-dev": [

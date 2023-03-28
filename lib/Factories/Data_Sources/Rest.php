@@ -24,14 +24,14 @@ use Adiungo\Core\Traits\With_Single_Response_Adapter;
 use Underpin\Exceptions\Operation_Failed;
 use Underpin\Factories\Request;
 use Underpin\Helpers\Array_Helper;
-use Underpin\Traits\With_Object_Cache;
+use Underpin\Traits\With_Cache;
 
 class Rest implements Data_Source, Has_Content_Model_Instance, Has_Http_Strategy, Has_Data_Source_Adapter, Has_Batch_Response_Adapter, Has_Single_Response_Adapter, Has_Has_More_Strategy, Has_Batch_Request_Builder, Has_Single_Request_Builder
 {
     use With_Content_Model_Instance;
     use With_Data_Source_Adapter;
     use With_Batch_Response_Adapter;
-    use With_Object_Cache;
+    use With_Cache;
     use With_Has_More_Strategy;
     use With_Single_Request_Builder;
     use With_Batch_Request_Builder;
@@ -40,7 +40,8 @@ class Rest implements Data_Source, Has_Content_Model_Instance, Has_Http_Strategy
 
     public function get_data(): Content_Model_Collection
     {
-        return $this->load_from_cache('get_data', function () {
+        /** @var Content_Model_Collection $result */
+        $result = $this->load_from_cache('get_data', function () {
             $request = $this->get_batch_request_builder()->get_request();
             $response = $this->get_batch_response_adapter()->set_response($this->get_response($request))->to_array();
 
@@ -48,6 +49,8 @@ class Rest implements Data_Source, Has_Content_Model_Instance, Has_Http_Strategy
                 return $this->get_data_source_adapter()->convert_to_model($data);
             }));
         });
+
+        return $result;
     }
 
     public function has_more(): bool
@@ -82,13 +85,16 @@ class Rest implements Data_Source, Has_Content_Model_Instance, Has_Http_Strategy
      */
     public function get_item(int|string $id): Content_Model
     {
-        return $this->load_from_cache('get_item', function () use ($id) {
+        /** @var Content_Model $result */
+        $result = $this->load_from_cache('get_item', function () use ($id) {
             $request = $this->get_single_request_builder()->set_id($id)->get_request();
 
             $data = $this->get_single_response_adapter()->set_response($this->get_response($request))->to_array();
 
             return $this->get_data_source_adapter()->convert_to_model($data);
         });
+
+        return $result;
     }
 
     /**

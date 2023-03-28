@@ -11,11 +11,11 @@ use Underpin\Exceptions\Item_Not_Found;
 use Underpin\Exceptions\Operation_Failed;
 use Underpin\Factories\Registry;
 use Underpin\Helpers\Array_Helper;
-use Underpin\Traits\With_Object_Cache;
+use Underpin\Traits\With_Cache;
 
 class Data_Source_Adapter implements Has_Content_Model_Instance
 {
-    use With_Object_Cache;
+    use With_Cache;
     use With_Content_Model_Instance;
 
     /**
@@ -47,7 +47,10 @@ class Data_Source_Adapter implements Has_Content_Model_Instance
      */
     public function get_mappings(): Registry
     {
-        return $this->load_from_cache('mappings', fn () => new Registry(fn ($key, $value) => $this->mapping_is_valid($value['setter'], $value['type'])));
+        /** @var Registry $registry */
+        $registry = $this->load_from_cache('mappings', fn () => new Registry(fn ($key, $value) => $this->mapping_is_valid($value['setter'], $value['type'])));
+
+        return $registry;
     }
 
     /**

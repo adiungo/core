@@ -21,13 +21,13 @@ use Masterminds\HTML5;
 use Underpin\Exceptions\Item_Not_Found;
 use Underpin\Exceptions\Operation_Failed;
 use Underpin\Exceptions\Validation_Failed;
-use Underpin\Traits\With_Object_Cache;
+use Underpin\Traits\With_Cache;
 
 class Media_Scan implements Data_Source, Has_Content, Has_Base
 {
     use With_Content;
     use With_Base;
-    use With_Object_Cache;
+    use With_Cache;
 
     /**
      * @return Attachment_Collection
@@ -48,7 +48,10 @@ class Media_Scan implements Data_Source, Has_Content, Has_Base
      */
     protected function get_dom_document(): DOMDocument
     {
-        return $this->load_from_cache('dom', fn () => (new HTML5())->parse($this->get_content()));
+        /** @var DOMDocument $result */
+        $result = $this->load_from_cache('dom', fn () => (new HTML5())->parse($this->get_content()));
+
+        return $result;
     }
 
     /**
