@@ -64,7 +64,10 @@ class CSV implements Data_Source, Has_Offset, Has_Limit, Has_Data_Source_Adapter
      */
     protected function get_csv_instance(): CSV_Lib
     {
-        return $this->load_from_cache('csv_instance', fn () => new CSV_Lib());
+        /** @var CSV_Lib $result */
+        $result = $this->load_from_cache('csv_instance', fn () => new CSV_Lib());
+
+        return $result;
     }
 
     /**

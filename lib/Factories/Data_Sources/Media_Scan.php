@@ -48,7 +48,10 @@ class Media_Scan implements Data_Source, Has_Content, Has_Base
      */
     protected function get_dom_document(): DOMDocument
     {
-        return $this->load_from_cache('dom', fn () => (new HTML5())->parse($this->get_content()));
+        /** @var DOMDocument $result */
+        $result = $this->load_from_cache('dom', fn () => (new HTML5())->parse($this->get_content()));
+
+        return $result;
     }
 
     /**
