@@ -11,11 +11,11 @@ use Underpin\Exceptions\Item_Not_Found;
 use Underpin\Exceptions\Operation_Failed;
 use Underpin\Factories\Registry;
 use Underpin\Helpers\Array_Helper;
-use Underpin\Traits\With_Object_Cache;
+use Underpin\Traits\With_Cache;
 
 class Data_Source_Adapter implements Has_Content_Model_Instance
 {
-    use With_Object_Cache;
+    use With_Cache;
     use With_Content_Model_Instance;
 
     /**

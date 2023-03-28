@@ -24,14 +24,14 @@ use Adiungo\Core\Traits\With_Single_Response_Adapter;
 use Underpin\Exceptions\Operation_Failed;
 use Underpin\Factories\Request;
 use Underpin\Helpers\Array_Helper;
-use Underpin\Traits\With_Object_Cache;
+use Underpin\Traits\With_Cache;
 
 class Rest implements Data_Source, Has_Content_Model_Instance, Has_Http_Strategy, Has_Data_Source_Adapter, Has_Batch_Response_Adapter, Has_Single_Response_Adapter, Has_Has_More_Strategy, Has_Batch_Request_Builder, Has_Single_Request_Builder
 {
     use With_Content_Model_Instance;
     use With_Data_Source_Adapter;
     use With_Batch_Response_Adapter;
-    use With_Object_Cache;
+    use With_Cache;
     use With_Has_More_Strategy;
     use With_Single_Request_Builder;
     use With_Batch_Request_Builder;

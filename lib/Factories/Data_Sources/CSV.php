@@ -15,13 +15,13 @@ use ParseCsv\Csv as CSV_Lib;
 use Underpin\Exceptions\Item_Not_Found;
 use Underpin\Exceptions\Operation_Failed;
 use Underpin\Helpers\Array_Helper;
-use Underpin\Traits\With_Object_Cache;
+use Underpin\Traits\With_Cache;
 
 class CSV implements Data_Source, Has_Offset, Has_Limit, Has_Data_Source_Adapter
 {
     use With_Offset;
     use With_Limit;
-    use With_Object_Cache;
+    use With_Cache;
     use With_Data_Source_Adapter;
 
     /**
